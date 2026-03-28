@@ -12,7 +12,9 @@ const AppNavigator = () => {
     return (
         <Tab.Navigator 
             screenOptions={{
-                tabBarStyle: { backgroundColor: colors.surfaceColor},
+                tabBarStyle: { backgroundColor: colors.surfaceColor, height: 170},
+                tabBarLabelStyle: { fontSize: 28, marginBottom: 6,},
+                tabBarIconStyle: { margintop: 6,},
                 tabBarActiveTintColor: colors.primaryColor,
                 tabBarInactiveTintColor: colors.textSecondary,
                 headerShown: false,
