@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native';
-import { colors, fontSize, radius } from '../../../shared/theme';
+import { colors, fontSize, radius, vScale, scale } from '../../../shared/theme';
+
 
 export default function DayCell({day, hasTransaction, onPress}) {
 
@@ -20,11 +21,11 @@ const styles = StyleSheet.create({
     cell: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: '14.00%',
-        height: 52,
+        width: `${100/7}%`,
+        height: vScale(48),
         backgroundColor: colors.surfaceColor,
         borderRadius: radius.sm,
-        margin: 1.4
+        paddingVertical: scale(2),
     },
     dayText: {
         color: colors.textPrimary,

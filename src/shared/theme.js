@@ -1,3 +1,11 @@
+import { Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+const BASE_WIDTH = 390; // iPhone 14 baseline
+
+export const scale = (size) => (width / BASE_WIDTH) * size;
+export const vScale = (size) => (height / 844) * size;
+
 export const colors = {
     screenBackground: '#232323',
     borderColor: '#2e2e2e',
@@ -9,20 +17,20 @@ export const colors = {
     textSecondary: '#a8a8a8'
 };
 
-export const spacing = {
-    xs: 4,
-    sm: 8,
-    md: 16,
-    lg: 24,
-    xl: 32
+export const fontSize = {
+    sm: scale(12),
+    md: scale(14),
+    lg: scale(16),
+    xl: scale(20),
+    xxl: scale(13), 
 };
 
-export const fontSize = {
-    sm: 13,
-    md: 15,
-    lg: 18,
-    xl: 22,
-    xxl: 28
+export const spacing = {
+    xs: scale(4),
+    sm: scale(8),
+    md: scale(14),
+    lg: scale(20),
+    xl: scale(28),
 };
 
 export const radius = {

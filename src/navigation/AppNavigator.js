@@ -3,7 +3,7 @@ import MoneyScreen from "../features/money/MoneyScreen";
 import SleepScreen from "../features/sleep/SleepScreen";
 import GymScreen from "../features/gym/GymScreen";
 import HabitsScreen from "../features/habits/HabitsScreen";
-import { colors } from "../shared/theme";
+import { colors, vScale, scale } from "../shared/theme";
 import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -12,8 +12,8 @@ const AppNavigator = () => {
     return (
         <Tab.Navigator 
             screenOptions={{
-                tabBarStyle: { backgroundColor: colors.surfaceColor, height: 170},
-                tabBarLabelStyle: { fontSize: 28, marginBottom: 6,},
+                tabBarStyle: { backgroundColor: colors.surfaceColor, height: vScale(60)},
+                tabBarLabelStyle: { fontSize: scale(11), marginBottom: scale(4),},
                 tabBarIconStyle: { margintop: 6,},
                 tabBarActiveTintColor: colors.primaryColor,
                 tabBarInactiveTintColor: colors.textSecondary,

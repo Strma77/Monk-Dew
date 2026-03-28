@@ -13,8 +13,8 @@ export default function TransactionModal({visible, selectedDate, onSave, onClose
             <View style={styles.overlay}>
                 <View style={styles.card}>
                     <Text style={styles.title}>Log for {selectedDate}</Text>
-                    <TextInput style={styles.input} value={amount} onChangeText={setAmount} keyboardType='numeric'></TextInput>
-                    <TextInput style={styles.input} value={note} onChangeText={setNote}></TextInput>
+                    <TextInput style={styles.input} value={amount} onChangeText={setAmount} keyboardType='numeric' placeholder='eg. 10'></TextInput>
+                    <TextInput style={styles.input} value={note} onChangeText={setNote} placeholder='description'></TextInput>
                     <TouchableOpacity style={styles.saveButton} onPress={onSave}>
                         <Text style={styles.buttonText}>Save</Text>
                     </TouchableOpacity>

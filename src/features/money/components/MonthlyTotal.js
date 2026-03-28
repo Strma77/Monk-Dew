@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { colors } from '../../../shared/theme';
+import { colors , scale} from '../../../shared/theme';
 
 export default function MonthlyTotal({ total }) {
     return (
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 8,
         marginBottom: 16,
+         marginTop: scale(12),
     },
     textStyle: {
         color: colors.textSecondary,

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { getCalendarDays } from '../utils/calendarUtils';
 import DayCell from './DayCell';
-import { colors, fontSize, spacing } from '../../../shared/theme';
+import { colors, fontSize, spacing, scale } from '../../../shared/theme';
 
 const DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -38,7 +38,9 @@ export default function CalendarGrid({year, month, dailyTotals, onDayPress}) {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        paddingHorizontal: scale(1),
+        gap: scale(2),
     },
     weekRow: {
         flexDirection: 'row',
