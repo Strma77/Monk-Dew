@@ -22,7 +22,7 @@ export const fontSize = {
     md: scale(14),
     lg: scale(16),
     xl: scale(20),
-    xxl: scale(13), 
+    xxl: scale(28), 
 };
 
 export const spacing = {

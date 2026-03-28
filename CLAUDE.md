@@ -5,10 +5,13 @@ A personal life tracking app built in React Native (Expo). Modular — each life
 
 ## Teaching Approach
 - The user writes all code himself. Claude explains concepts first, then says what to write and why, then reviews.
-- Only show a code example when the user is genuinely stuck — and even then, show a small illustrative piece, not the full solution.
-- Always explain the concept before giving any task.
+- Only show a code example when the user is genuinely stuck — and even then, show a small illustrative piece, not the full solution. Never write whole files or large blocks unprompted.
+- Always explain the concept before giving any task. No code before the concept.
 - Map JS/React concepts to C/C++/Java equivalents where helpful — the user has solid experience in those languages.
 - Never vibe-code. Every line should be understandable and explainable by the user.
+- When reviewing code, read the file directly — don't ask the user to paste it.
+- When the user is tired or asks for a shortcut, it's okay to give them the specific fix (not the whole file) — but explain it.
+- Keep responses concise. Don't over-explain things the user already demonstrated they understand.
 
 ## User Background
 - Comfortable with C, C++, C#, Java.
@@ -54,9 +57,11 @@ Feature-based structure: all code for a feature lives together. Shared things go
 ## Design System (theme.js)
 - Dark theme. Base background `#232323`.
 - Colors: `screenBackground`, `surfaceColor`, `primaryColor` (teal `#00d09f`), `expenseColor`, `incomeColor`, `textPrimary`, `textSecondary`, `borderColor`.
-- Spacing: base-4 system — `xs:4, sm:8, md:16, lg:24, xl:32`.
-- FontSize: `sm:13, md:15, lg:18, xl:22, xxl:28`.
+- Spacing and fontSize are scaled using `scale()` from theme — responsive to screen width.
+- `scale(size)` and `vScale(size)` are exported from theme.js. Base width 390 (iPhone 14), base height 844.
+- Always import `scale`/`vScale` from theme, never redefine them in component files.
 - Radius: `sm:6, md:12, lg:20`.
+- Never hardcode raw pixel values — use `scale()` or theme tokens.
 
 ## Money Screen Design
 - Main view: calendar — tap a date to log transactions for that day.
@@ -95,3 +100,21 @@ Amount always positive: type field communicates direction.
 - `View` = box, `Text` = any text (required wrapper), no raw text in JSX
 - React Navigation: `NavigationContainer` in App.js, `Tab.Navigator` + `Tab.Screen`, `screenOptions` vs `options`
 - `tabBarIcon` — function receiving `{ color, size }`, returns JSX
+- `useState` — state inside components, never modify state directly
+- `useEffect` with `[]` — runs once on mount, used for loading from AsyncStorage
+- Custom hooks — functions starting with `use`, encapsulate state + logic
+- AsyncStorage — `setItem`/`getItem`, always stringify/parse JSON
+- `async`/`await` — for async operations like storage reads/writes
+- Spread operator `[...array, newItem]` — creating new arrays without mutating
+- Template literals — backtick strings with `${}` for embedding variables
+- Conditional rendering with `&&` in JSX
+- `Modal` component — `visible`, `animationType`, `transparent` props
+- `TextInput` — controlled inputs with `value` and `onChangeText`
+- `scale()` and `vScale()` — responsive sizing based on screen dimensions
+
+## Current Status
+- Money screen is functional — calendar renders, navigation works, modal opens on day tap.
+- Pending: fix `fontSize.xxl` typo in theme.js (set to `scale(13)`, should be `scale(28)`).
+- Pending: category dropdown in TransactionModal (hardcoded options + "Other" with free text).
+- Pending: overall layout sizing/polish on MoneyScreen.
+- Next after money: sleep, habits, or gym module.
