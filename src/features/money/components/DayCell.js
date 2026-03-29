@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
     dayText: {
         color: colors.textPrimary,
-        fontSize: fontSize.xxl
+        fontSize: fontSize.md
     },
     dot: {
         borderRadius: 4,

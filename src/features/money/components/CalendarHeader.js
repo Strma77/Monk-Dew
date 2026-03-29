@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
     },
     middleText: {
         color: colors.textPrimary,
-        fontSize: fontSize.lg
+        fontSize: fontSize.lg,
+        textAlign: 'center',
+        flex: 1
     },
 });

@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         paddingHorizontal: scale(1),
-        gap: scale(2),
+        
     },
     weekRow: {
         flexDirection: 'row',
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         width: '14.28%',
         textAlign: 'center',
         color: colors.textSecondary,
-        fontSize: fontSize.xxl,
+        fontSize: fontSize.sm,
         paddingVertical: spacing.xs
     }
 })
