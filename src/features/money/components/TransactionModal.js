@@ -1,74 +1,199 @@
-import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-import { useEffect, useState } from 'react';
-import { colors, spacing, fontSize, radius } from '../../../shared/theme';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Modal,
+  StyleSheet,
+} from "react-native";
+import { useEffect, useState } from "react";
+import { colors, spacing, fontSize, radius } from "../../../shared/theme";
+import { Ionicons } from "@expo/vector-icons";
+import { TouchableWithoutFeedback } from "react-native";
 
-const EXPENSE_CATEGORIES = ['Kava', 'Uber', 'Pekara', 'Menza', 'Pivo', 'Fast Food', 'Other'];
-const INCOME_CATEGORIES = ['Tata', 'Mama', 'Poker', 'Prodao', 'Other'];
+const EXPENSE_CATEGORIES = [
+  "Kava",
+  "Uber",
+  "Pekara",
+  "Menza",
+  "Pivo",
+  "Fast Food",
+  "Other",
+];
+const INCOME_CATEGORIES = ["Tata", "Mama", "Poker", "Prodao", "Other"];
 
-export default function TransactionModal({visible, selectedDate, onSave, onClose}) {
-    const [amount, setAmount] = useState('');
-    const [type, setType] = useState('expense');
-    const [category, setCategory] = useState('');
-    const [note, setNote] = useState('');
-    const [customCategory, setCustomCategory] = useState('');
+export default function TransactionModal({
+  visible,
+  selectedDate,
+  onSave,
+  onClose,
+  dayTransactions,
+  onUpdate,
+  onDelete,
+}) {
+  const [amount, setAmount] = useState("");
+  const [type, setType] = useState("expense");
+  const [category, setCategory] = useState("");
+  const [note, setNote] = useState("");
+  const [customCategory, setCustomCategory] = useState("");
+  const [editingTransaction, setEditingTransaction] = useState(null);
 
-    useEffect( () => {
-        if(visible) {
-            setAmount('');
-            setType('expense');
-            setCategory('');
-            setNote('');
-            setCustomCategory('');
-        }
-    }, [visible]);
+  useEffect(() => {
+    if (visible) {
+      setAmount("");
+      setType("expense");
+      setCategory("");
+      setNote("");
+      setCustomCategory("");
+      setEditingTransaction(null);
+    }
+  }, [visible]);
 
-    return (
-        <Modal visible={visible} animationType="slide" transparent={true} >
-            <View style={styles.overlay}>
-                <View style={styles.card}>
-                    <Text style={styles.title}>Log for {selectedDate}</Text>
-                    <View style={styles.typeToggle}>
-                        <TouchableOpacity
-                            style={[styles.typeButton, type==='expense' && styles.typeButtonActive]}
-                            onPress={() => setType('expense')}
-                        >
-                            <Text style={styles.buttonText}>Expense</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[styles.typeButton, type==='income' && styles.typeButtonActive]}
-                            onPress={() => setType('income')}
-                        >
-                            <Text style={styles.buttonText}>Income</Text>    
-                        </TouchableOpacity>
-                    </View>
-                    <TextInput style={styles.input} value={amount} onChangeText={setAmount} keyboardType='numeric' placeholder='eg. 10'></TextInput>
-                    <View style={styles.viewCategory}>
-                        {type === 'expense' ? (
-                            EXPENSE_CATEGORIES.map((c) => (
-                                <TouchableOpacity style={[styles.category, category === c && styles.categoryActive]} onPress={() => setCategory(c)} key={c}>
-                                    <Text style={styles.categoryText}>{c}</Text>
-                                </TouchableOpacity>
-                            ))
-                        ) : (
-                            INCOME_CATEGORIES.map((c) => (
-                                <TouchableOpacity style={[styles.category, category === c && styles.categoryActive]} onPress={() => setCategory(c)} key={c}>
-                                    <Text style={styles.categoryText}>{c}</Text>
-                                </TouchableOpacity>
-                            ))
-                        )}
-                    </View>
-                    {category === 'Other' && <TextInput style={styles.input} value={customCategory} onChangeText={setCustomCategory} placeholder='Specify...' />}
-                    <TextInput style={styles.input} value={note} onChangeText={setNote} placeholder='description'></TextInput>
-                    <TouchableOpacity style={styles.saveButton} onPress={() => { onSave( {date: selectedDate, amount: parseFloat(amount), type, category: category === 'Other' ? customCategory : category, note }); onClose();}}>
-                        <Text style={styles.buttonText}>Save</Text>
+  return (
+    <Modal visible={visible} animationType="slide" transparent={true}>
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.overlay}>
+          <TouchableWithoutFeedback onPress={() => {}}>
+            <View style={styles.card}>
+              <Text style={styles.title}>Log for {selectedDate}</Text>
+              <View style={styles.typeToggle}>
+                <TouchableOpacity
+                  style={[
+                    styles.typeButton,
+                    type === "expense" && styles.typeButtonActive,
+                  ]}
+                  onPress={() => setType("expense")}
+                >
+                  <Text style={styles.buttonText}>Expense</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.typeButton,
+                    type === "income" && styles.typeButtonActive,
+                  ]}
+                  onPress={() => setType("income")}
+                >
+                  <Text style={styles.buttonText}>Income</Text>
+                </TouchableOpacity>
+              </View>
+
+              {dayTransactions &&
+                dayTransactions.map((t) => (
+                  <View key={t.id} style={styles.transactionRow}>
+                    <Text style={styles.transactionText}>
+                      {t.category} — {t.amount}€
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setEditingTransaction(t);
+                        setAmount(t.amount.toString());
+                        setType(t.type);
+                        setCategory(t.category);
+                        setNote(t.note);
+                      }}
+                    >
+                      <Ionicons
+                        name="pencil-outline"
+                        color={colors.primaryColor}
+                        size={fontSize.xl}
+                        style={{ marginLeft: spacing.sm }}
+                      />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-                        <Text style={styles.buttonText}>Close</Text>
+                    <TouchableOpacity onPress={() => onDelete(t)}>
+                      <Ionicons
+                        name="trash-outline"
+                        color={colors.expenseColor}
+                        size={fontSize.xl}
+                        style={{ marginLeft: spacing.sm }}
+                      />
                     </TouchableOpacity>
-                </View>
+                  </View>
+                ))}
+
+              <TextInput
+                style={styles.input}
+                value={amount}
+                onChangeText={setAmount}
+                keyboardType="numeric"
+                placeholder="eg. 10"
+              ></TextInput>
+              <View style={styles.viewCategory}>
+                {type === "expense"
+                  ? EXPENSE_CATEGORIES.map((c) => (
+                      <TouchableOpacity
+                        style={[
+                          styles.category,
+                          category === c && styles.categoryActive,
+                        ]}
+                        onPress={() => setCategory(c)}
+                        key={c}
+                      >
+                        <Text style={styles.categoryText}>{c}</Text>
+                      </TouchableOpacity>
+                    ))
+                  : INCOME_CATEGORIES.map((c) => (
+                      <TouchableOpacity
+                        style={[
+                          styles.category,
+                          category === c && styles.categoryActive,
+                        ]}
+                        onPress={() => setCategory(c)}
+                        key={c}
+                      >
+                        <Text style={styles.categoryText}>{c}</Text>
+                      </TouchableOpacity>
+                    ))}
+              </View>
+              {category === "Other" && (
+                <TextInput
+                  style={styles.input}
+                  value={customCategory}
+                  onChangeText={setCustomCategory}
+                  placeholder="Specify..."
+                />
+              )}
+              <TextInput
+                style={styles.input}
+                value={note}
+                onChangeText={setNote}
+                placeholder="description"
+              ></TextInput>
+              <TouchableOpacity
+                style={styles.saveButton}
+                onPress={() => {
+                  const finalCategory =
+                    category === "Other" ? customCategory : category;
+                  if (editingTransaction) {
+                    onUpdate({
+                      ...editingTransaction,
+                      amount: parseFloat(amount),
+                      type,
+                      category: finalCategory,
+                      note,
+                    });
+                  } else {
+                    onSave({
+                      date: selectedDate,
+                      amount: parseFloat(amount),
+                      type,
+                      category: finalCategory,
+                      note,
+                    });
+                    onClose();
+                  }
+                }}
+              >
+                <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+                <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
             </View>
-        </Modal>
-    )
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -146,5 +271,18 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     fontSize: fontSize.sm,
   },
+  transactionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: spacing.xs,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderColor,
+    marginBottom: spacing.xs,
+  },
+  transactionText: {
+    flex: 1,
+    color: colors.textPrimary,
+    fontSize: fontSize.sm,
+  },
 });
-
