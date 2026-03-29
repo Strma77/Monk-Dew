@@ -39,3 +39,6 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Claude MD so its not clear I used AI fully
+CLAUDE.md
