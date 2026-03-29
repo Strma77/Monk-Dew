@@ -3,14 +3,14 @@ import { TouchableOpacity } from 'react-native';
 import { colors, fontSize, radius, vScale, scale } from '../../../shared/theme';
 
 
-export default function DayCell({day, hasTransaction, onPress}) {
+export default function DayCell({day, hasTransaction, onPress, isNoSpend}) {
 
     if(day === null){
         return <View style={styles.cell}/>;
     }
 
     return (
-        <TouchableOpacity style={styles.cell} onPress={onPress}>
+        <TouchableOpacity style={[styles.cell, isNoSpend && styles.noSpendCell]} onPress={onPress}>
             <Text style={styles.dayText}>{day}</Text>
             {hasTransaction && <View style={styles.dot}/>}
         </TouchableOpacity>
@@ -37,5 +37,8 @@ const styles = StyleSheet.create({
         height: 8,
         backgroundColor: colors.primaryColor,
         alignSelf: 'center'
+    },
+    noSpendCell: {
+        backgroundColor: '#005a4e'
     }
 })

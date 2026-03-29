@@ -1,6 +1,6 @@
 export const getTotalSpent = (transactions) => {
     const expenses = transactions.filter(t => t.type === "expense");
-    const total = expenses.reduce((sum, t) => sum + t.amount, 0);
+    const total = expenses.reduce((sum, t) => sum + (parseFloat(t.amount) || 0), 0);
 
     return total;
 };

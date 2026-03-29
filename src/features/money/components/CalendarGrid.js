@@ -7,6 +7,7 @@ const DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export default function CalendarGrid({year, month, dailyTotals, onDayPress}) {
     const calendarDays = getCalendarDays(year, month);
+    const today = new Date().toISOString().slice(0, 10);
 
     return (
         <View style={styles.container}>
@@ -28,6 +29,7 @@ export default function CalendarGrid({year, month, dailyTotals, onDayPress}) {
                         day={day} 
                         hasTransaction={dateKey !== null && dailyTotals[dateKey] !== undefined } 
                         onPress={() => onDayPress(day)}
+                        isNoSpend={day !== null && dateKey < today && dailyTotals[dateKey] === undefined}
                     />
                 )
             })}
