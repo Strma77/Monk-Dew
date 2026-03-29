@@ -93,7 +93,7 @@ Amount always positive: type field communicates direction.
 
 ## Key Concepts Covered So Far
 - `const` vs `let`, arrow functions, objects, destructuring
-- `.filter()`, `.reduce()`, `for...of`
+- `.filter()`, `.reduce()`, `.map()`, `for...of`
 - React components, props, JSX syntax rules
 - `export default` vs named exports, import paths
 - `StyleSheet.create()` — each key is a style object, not individual values
@@ -102,19 +102,24 @@ Amount always positive: type field communicates direction.
 - `tabBarIcon` — function receiving `{ color, size }`, returns JSX
 - `useState` — state inside components, never modify state directly
 - `useEffect` with `[]` — runs once on mount, used for loading from AsyncStorage
+- `useEffect` with dependency array — re-runs when a value changes (used for modal reset)
 - Custom hooks — functions starting with `use`, encapsulate state + logic
 - AsyncStorage — `setItem`/`getItem`, always stringify/parse JSON
 - `async`/`await` — for async operations like storage reads/writes
 - Spread operator `[...array, newItem]` — creating new arrays without mutating
+- Spread operator `{...obj, key: newVal}` — updating objects without mutating
 - Template literals — backtick strings with `${}` for embedding variables
-- Conditional rendering with `&&` in JSX
+- Conditional rendering with `&&` and ternary `? :` in JSX
+- Style arrays `[styles.base, condition && styles.active]` — merging styles conditionally
 - `Modal` component — `visible`, `animationType`, `transparent` props
+- `TouchableWithoutFeedback` — tap handler with no visual feedback, used for dismiss-on-backdrop
 - `TextInput` — controlled inputs with `value` and `onChangeText`
 - `scale()` and `vScale()` — responsive sizing based on screen dimensions
+- Ionicons — `name`, `color`, `size` props (color/size are NOT in style)
 
 ## Current Status
-- Money screen is functional — calendar renders, navigation works, modal opens on day tap.
-- Pending: fix `fontSize.xxl` typo in theme.js (set to `scale(13)`, should be `scale(28)`).
-- Pending: category dropdown in TransactionModal (hardcoded options + "Other" with free text).
-- Pending: overall layout sizing/polish on MoneyScreen.
-- Next after money: sleep, habits, or gym module.
+- Money module complete and committed.
+- Tomorrow: build preview APK via EAS and install on phone.
+  - Need Expo account, `npm install -g eas-cli`, `eas login`, `eas build:configure`, then `eas build --platform android --profile preview`
+- Next after phone setup: pick next module — sleep, habits, or gym.
+- Future money improvements: layout polish, spending charts, 0-spend points system.

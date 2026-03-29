@@ -109,9 +109,10 @@ Requires an Expo account. Only needed when installing the real app — for devel
 
 ## Roadmap
 
-- [ ] Edit and delete transactions (in progress)
+- [x] Money tracker — calendar, transactions, categories, edit/delete, no-spend highlights
+- [ ] Build preview APK and install on device (EAS Build)
 - [ ] Sleep tracker
 - [ ] Habits tracker
 - [ ] Gym / workout logger
-- [ ] 0-spend day points and reward system
 - [ ] Spending charts and trends
+- [ ] 0-spend day points and reward system
