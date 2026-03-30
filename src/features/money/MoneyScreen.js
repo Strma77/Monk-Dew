@@ -1,8 +1,9 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Share, TouchableOpacity, Text } from "react-native";
 import { useState } from "react";
 import { colors, spacing } from "../../shared/theme";
 import { useTransactions } from "./hooks/useTransactions";
 import { getTotalSpent, getDailyTotals } from "./utils/calculations";
+import { formatMonthExport } from "./utils/exportTransactions";
 import CalendarHeader from "./components/CalendarHeader";
 import CalendarGrid from "./components/CalendarGrid";
 import MonthlyTotal from "./components/MonthlyTotal";
@@ -41,6 +42,11 @@ const MoneyScreen = () => {
 
   const dayTransactions = transactions.filter((t) => t.date === selectedDate);
 
+  const handleExport = async () => {
+    const text = formatMonthExport(transactions, currentYear, currentMonth + 1);
+    await Share.share({ message: text });
+  };
+
   return (
     <View style={styles.container}>
       <CalendarHeader
@@ -56,6 +62,9 @@ const MoneyScreen = () => {
         onDayPress={handleDayPress}
       />
       <MonthlyTotal total={totalSpent} />
+      <TouchableOpacity style={styles.exportButton} onPress={handleExport}>
+        <Text style={styles.exportText}>Export as TXT</Text>
+      </TouchableOpacity>
       <TransactionModal
         visible={modalVisible}
         selectedDate={selectedDate}
@@ -85,6 +94,17 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     fontSize: 24,
   },
+  exportButton: {
+    backgroundColor: colors.surfaceColor,
+    padding: spacing.md,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: spacing.sm,
+  },
+  exportText: {
+    color: colors.primaryColor,
+    fontSize: 14,
+  }
 });
 
 export default MoneyScreen;

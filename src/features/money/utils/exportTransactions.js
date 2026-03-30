@@ -1,6 +1,6 @@
 export const formatMonthExport = (transactions, year, month) => {
     const monthTransactions = transactions.filter((t) => {
-        return t.date.startsWith(`${year}-${String(month).padStart(2,'0')}`);
+        return t.date && t.date.startsWith(`${year}-${String(month).padStart(2,'0')}`);
     })
 
     const grouped = {};
