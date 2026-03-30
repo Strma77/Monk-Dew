@@ -50,11 +50,17 @@ const MoneyScreen = () => {
   };
 
   const handleImport = async () => {
-    const result = await DocumentPicker.getDocumentAsync({ type: 'application/json' });
-    if(result.canceled) return;
-    const text = await FileSystem.readAsStringAsync(result.assets[0].uri);
-    const parsed = JSON.parse(text);
-    importTransactions(parsed);
+    try{
+      const result = await DocumentPicker.getDocumentAsync({ type: 'application/json' });
+      if(result.canceled) return;
+      const text = await FileSystem.readAsStringAsync(result.assets[0].uri);
+      const parsed = JSON.parse(text);
+      importTransactions(parsed);
+      alert('Imported ' + parsed.length + ' transactions');
+    } catch(e) {
+      alert('Import failed: ' + e.message);
+    }
+  
   }
 
   return (
