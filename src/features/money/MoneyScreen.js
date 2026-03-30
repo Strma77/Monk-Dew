@@ -9,7 +9,7 @@ import CalendarGrid from "./components/CalendarGrid";
 import MonthlyTotal from "./components/MonthlyTotal";
 import TransactionModal from "./components/TransactionModal";
 import * as DocumentPicker from 'expo-document-picker'
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 
 const MoneyScreen = () => {
   const { transactions, addTransaction, deleteTransaction, updateTransaction, importTransactions } =
