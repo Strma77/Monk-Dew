@@ -39,6 +39,13 @@ export const useTransactions = () => {
         setTransactions(updatedTransaction);
         saveToStorage(updatedTransaction)
     }
+    const importTransactions = (incoming) => {
+        const existingIds = new Set(transactions.map(t => t.id));
+        const newOnes = incoming.filter(t => !existingIds.has(t.id));
+        const merged = [...transactions, ...newOnes];
+        setTransactions(merged);
+        saveToStorage(merged);
+    }
 
-    return { transactions, addTransaction, deleteTransaction, updateTransaction};
+    return { transactions, addTransaction, deleteTransaction, updateTransaction, importTransactions};
 }

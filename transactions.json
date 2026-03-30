@@ -1,0 +1,1378 @@
+[
+  {
+    "id": "import_1",
+    "date": "2025-12-01",
+    "amount": 7.0,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_2",
+    "date": "2025-12-01",
+    "amount": 3.7,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "burek"
+  },
+  {
+    "id": "import_3",
+    "date": "2025-12-01",
+    "amount": 3.5,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "pekara"
+  },
+  {
+    "id": "import_4",
+    "date": "2025-12-02",
+    "amount": 5.5,
+    "type": "expense",
+    "category": "Hrana",
+    "note": "pohani sir"
+  },
+  {
+    "id": "import_5",
+    "date": "2025-12-02",
+    "amount": 18.0,
+    "type": "expense",
+    "category": "Hrana",
+    "note": "2 fritulinke, 2 kuhana vina + 1 salica"
+  },
+  {
+    "id": "import_6",
+    "date": "2025-12-03",
+    "amount": 1.0,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "trokut sa sirom iz pekare"
+  },
+  {
+    "id": "import_7",
+    "date": "2025-12-05",
+    "amount": 1.5,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "pecivo sunka sir"
+  },
+  {
+    "id": "import_8",
+    "date": "2025-12-05",
+    "amount": 2.2,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_9",
+    "date": "2025-12-05",
+    "amount": 0.7,
+    "type": "expense",
+    "category": "Pice",
+    "note": "cokolada iz aparata za kavu"
+  },
+  {
+    "id": "import_10",
+    "date": "2025-12-05",
+    "amount": 3.32,
+    "type": "expense",
+    "category": "Kupovina",
+    "note": "fnaf 1 igrica za mobitel"
+  },
+  {
+    "id": "import_11",
+    "date": "2025-12-05",
+    "amount": 4.5,
+    "type": "expense",
+    "category": "Kebab",
+    "note": "kebab"
+  },
+  {
+    "id": "import_12",
+    "date": "2025-12-06",
+    "amount": 10.0,
+    "type": "expense",
+    "category": "Fast Food",
+    "note": "sweet cheez burger na adventu"
+  },
+  {
+    "id": "import_13",
+    "date": "2025-12-06",
+    "amount": 12.1,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "2 kuhana vina + boca vode"
+  },
+  {
+    "id": "import_14",
+    "date": "2025-12-06",
+    "amount": 13.5,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "3 vruce cokolade"
+  },
+  {
+    "id": "import_15",
+    "date": "2025-12-06",
+    "amount": 6.0,
+    "type": "expense",
+    "category": "Groceries",
+    "note": "secerna vuna + slatkisi"
+  },
+  {
+    "id": "import_16",
+    "date": "2025-12-08",
+    "amount": 0.4,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "strukli u menzi"
+  },
+  {
+    "id": "import_17",
+    "date": "2025-12-08",
+    "amount": 2.8,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "lasko pivo jedno"
+  },
+  {
+    "id": "import_18",
+    "date": "2025-12-09",
+    "amount": 1.5,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "pecivo sunka sir"
+  },
+  {
+    "id": "import_19",
+    "date": "2025-12-09",
+    "amount": 1.55,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "meksicka pita"
+  },
+  {
+    "id": "import_20",
+    "date": "2025-12-09",
+    "amount": 3.8,
+    "type": "expense",
+    "category": "Pice",
+    "note": "kuhano vino"
+  },
+  {
+    "id": "import_21",
+    "date": "2025-12-10",
+    "amount": 2.2,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_22",
+    "date": "2025-12-10",
+    "amount": 0.73,
+    "type": "expense",
+    "category": "Menza",
+    "note": "dorucak menza"
+  },
+  {
+    "id": "import_23",
+    "date": "2025-12-10",
+    "amount": 1.39,
+    "type": "expense",
+    "category": "Menza",
+    "note": "rucak menza"
+  },
+  {
+    "id": "import_24",
+    "date": "2025-12-10",
+    "amount": 3.8,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "pekara za curu i mene"
+  },
+  {
+    "id": "import_25",
+    "date": "2025-12-11",
+    "amount": 2.1,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_26",
+    "date": "2025-12-11",
+    "amount": 4.0,
+    "type": "expense",
+    "category": "Hrana",
+    "note": "cheesecake"
+  },
+  {
+    "id": "import_27",
+    "date": "2025-12-12",
+    "amount": 8.0,
+    "type": "expense",
+    "category": "Cvijece",
+    "note": "cvijece"
+  },
+  {
+    "id": "import_28",
+    "date": "2025-12-12",
+    "amount": 3.0,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_29",
+    "date": "2025-12-12",
+    "amount": 5.52,
+    "type": "expense",
+    "category": "Fast Food",
+    "note": "burger king"
+  },
+  {
+    "id": "import_30",
+    "date": "2025-12-12",
+    "amount": 5.0,
+    "type": "expense",
+    "category": "Poker",
+    "note": "poker buy-in"
+  },
+  {
+    "id": "import_31",
+    "date": "2025-12-12",
+    "amount": 14.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "poker buy-out"
+  },
+  {
+    "id": "import_32",
+    "date": "2025-12-13",
+    "amount": 12.6,
+    "type": "expense",
+    "category": "Hrana",
+    "note": "2 cheesecake + 2 cedevite s curom"
+  },
+  {
+    "id": "import_33",
+    "date": "2025-12-15",
+    "amount": 3.0,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_34",
+    "date": "2025-12-15",
+    "amount": 4.35,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "pekara za curu i mene"
+  },
+  {
+    "id": "import_35",
+    "date": "2025-12-16",
+    "amount": 27.9,
+    "type": "expense",
+    "category": "Fast Food",
+    "note": "2 burgera za frenda i plata mesa za mene"
+  },
+  {
+    "id": "import_36",
+    "date": "2025-12-16",
+    "amount": 6.9,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "plata mesa za curu"
+  },
+  {
+    "id": "import_37",
+    "date": "2025-12-16",
+    "amount": 24.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "oba frenda dala na svoje burgere"
+  },
+  {
+    "id": "import_38",
+    "date": "2025-12-17",
+    "amount": 3.5,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_39",
+    "date": "2025-12-17",
+    "amount": 3.2,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_40",
+    "date": "2025-12-17",
+    "amount": 3.2,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_41",
+    "date": "2025-12-17",
+    "amount": 3.2,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "castio frenda pivom jer sam mu bio duzan"
+  },
+  {
+    "id": "import_42",
+    "date": "2025-12-21",
+    "amount": 0.7,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "dodatak za pekaru"
+  },
+  {
+    "id": "import_43",
+    "date": "2025-12-27",
+    "amount": 240.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "prihod"
+  },
+  {
+    "id": "import_44",
+    "date": "2025-12-28",
+    "amount": 8.0,
+    "type": "expense",
+    "category": "Hrana",
+    "note": "2 beef sticks paketa za curu i mene"
+  },
+  {
+    "id": "import_45",
+    "date": "2025-12-28",
+    "amount": 6.29,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "paket kave za curu"
+  },
+  {
+    "id": "import_46",
+    "date": "2025-12-28",
+    "amount": 11.1,
+    "type": "expense",
+    "category": "Pizza",
+    "note": "pizza za curu i mene"
+  },
+  {
+    "id": "import_47",
+    "date": "2025-12-29",
+    "amount": 2.6,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "kruh + prstici sa sirom"
+  },
+  {
+    "id": "import_48",
+    "date": "2025-12-29",
+    "amount": 17.6,
+    "type": "expense",
+    "category": "Groceries",
+    "note": "tonic, biterlemon, 2 slana chipsa, paket grickalica, kindermilchschnitte"
+  },
+  {
+    "id": "import_49",
+    "date": "2025-12-30",
+    "amount": 12.9,
+    "type": "expense",
+    "category": "Kondomi",
+    "note": "kondomi"
+  },
+  {
+    "id": "import_50",
+    "date": "2025-12-31",
+    "amount": 1.7,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "kruh"
+  },
+  {
+    "id": "import_51",
+    "date": "2025-12-31",
+    "amount": 6.71,
+    "type": "expense",
+    "category": "Groceries",
+    "note": "2 chips paprika, 2 paketa slanih stapica, 2L vode"
+  },
+  {
+    "id": "import_52",
+    "date": "2026-01-02",
+    "amount": 34.35,
+    "type": "expense",
+    "category": "Groceries",
+    "note": "namirnice"
+  },
+  {
+    "id": "import_53",
+    "date": "2026-01-03",
+    "amount": 15.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "prodao CoD Bo4"
+  },
+  {
+    "id": "import_54",
+    "date": "2026-01-04",
+    "amount": 3.1,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_55",
+    "date": "2026-01-07",
+    "amount": 2.4,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "caj s ekipom"
+  },
+  {
+    "id": "import_56",
+    "date": "2026-01-08",
+    "amount": 25.2,
+    "type": "expense",
+    "category": "Izlasci",
+    "note": "ulaznice za Candlelight event koncert s curom"
+  },
+  {
+    "id": "import_57",
+    "date": "2026-01-09",
+    "amount": 3.0,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_58",
+    "date": "2026-01-09",
+    "amount": 6.9,
+    "type": "expense",
+    "category": "Kondomi",
+    "note": "kondomi"
+  },
+  {
+    "id": "import_59",
+    "date": "2026-01-09",
+    "amount": 13.3,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "mddonalds"
+  },
+  {
+    "id": "import_60",
+    "date": "2026-01-10",
+    "amount": 22.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "prodao igrice Dead Island Definitive edition, Death Stranding, knjigu 2034: roman o iducem svjetskom radu"
+  },
+  {
+    "id": "import_61",
+    "date": "2026-01-12",
+    "amount": 1.6,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_62",
+    "date": "2026-01-12",
+    "amount": 1.75,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "piv"
+  },
+  {
+    "id": "import_63",
+    "date": "2026-01-12",
+    "amount": 2.7,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "pekara"
+  },
+  {
+    "id": "import_64",
+    "date": "2026-01-13",
+    "amount": 7.8,
+    "type": "expense",
+    "category": "Pice",
+    "note": "vruca cokolada s curom"
+  },
+  {
+    "id": "import_65",
+    "date": "2026-01-14",
+    "amount": 3.1,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_66",
+    "date": "2026-01-15",
+    "amount": 2.26,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza"
+  },
+  {
+    "id": "import_67",
+    "date": "2026-01-15",
+    "amount": 8.0,
+    "type": "expense",
+    "category": "Cvijece",
+    "note": "cvijece"
+  },
+  {
+    "id": "import_68",
+    "date": "2026-01-16",
+    "amount": 1.8,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza"
+  },
+  {
+    "id": "import_69",
+    "date": "2026-01-16",
+    "amount": 4.5,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "pekara za mene i curu"
+  },
+  {
+    "id": "import_70",
+    "date": "2026-01-16",
+    "amount": 2.2,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_71",
+    "date": "2026-01-16",
+    "amount": 4.98,
+    "type": "expense",
+    "category": "Transport",
+    "note": "uber"
+  },
+  {
+    "id": "import_72",
+    "date": "2026-01-17",
+    "amount": 5.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "osvojio na pokeru"
+  },
+  {
+    "id": "import_73",
+    "date": "2026-01-19",
+    "amount": 1.35,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "zvake"
+  },
+  {
+    "id": "import_74",
+    "date": "2026-01-19",
+    "amount": 0.7,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_75",
+    "date": "2026-01-21",
+    "amount": 2.84,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza"
+  },
+  {
+    "id": "import_76",
+    "date": "2026-01-21",
+    "amount": 2.2,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_77",
+    "date": "2026-01-22",
+    "amount": 2.32,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza"
+  },
+  {
+    "id": "import_78",
+    "date": "2026-01-22",
+    "amount": 5.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "poker"
+  },
+  {
+    "id": "import_79",
+    "date": "2026-01-23",
+    "amount": 20.5,
+    "type": "expense",
+    "category": "Fast Food",
+    "note": "mcdonalds s curom"
+  },
+  {
+    "id": "import_80",
+    "date": "2026-01-24",
+    "amount": 1070.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "dobio novce za poklon za rodjendan koji je za 2 dana od sire obitelji"
+  },
+  {
+    "id": "import_81",
+    "date": "2026-01-26",
+    "amount": 9.0,
+    "type": "expense",
+    "category": "Cvijece",
+    "note": "cvijece"
+  },
+  {
+    "id": "import_82",
+    "date": "2026-01-26",
+    "amount": 12.9,
+    "type": "expense",
+    "category": "Kondomi",
+    "note": "kondomi"
+  },
+  {
+    "id": "import_83",
+    "date": "2026-01-27",
+    "amount": 1.5,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "zvake"
+  },
+  {
+    "id": "import_84",
+    "date": "2026-01-27",
+    "amount": 3.5,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_85",
+    "date": "2026-01-28",
+    "amount": 0.7,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_86",
+    "date": "2026-01-28",
+    "amount": 5.5,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "kafic s curom"
+  },
+  {
+    "id": "import_87",
+    "date": "2026-01-28",
+    "amount": 1.74,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza"
+  },
+  {
+    "id": "import_88",
+    "date": "2026-01-29",
+    "amount": 3.4,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "pekara"
+  },
+  {
+    "id": "import_89",
+    "date": "2026-01-30",
+    "amount": 10.7,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "paket nutelle + curinoj najmladjoj sestri paket bombona + meni zvake"
+  },
+  {
+    "id": "import_90",
+    "date": "2026-01-30",
+    "amount": 2.5,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "trokut pizze"
+  },
+  {
+    "id": "import_91",
+    "date": "2026-01-30",
+    "amount": 7.5,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo prva runda"
+  },
+  {
+    "id": "import_92",
+    "date": "2026-01-30",
+    "amount": 3.3,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "druga"
+  },
+  {
+    "id": "import_93",
+    "date": "2026-01-30",
+    "amount": 6.1,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_94",
+    "date": "2026-01-30",
+    "amount": 4.5,
+    "type": "expense",
+    "category": "Kebab",
+    "note": "kebab"
+  },
+  {
+    "id": "import_95",
+    "date": "2026-01-30",
+    "amount": 4.0,
+    "type": "expense",
+    "category": "Transport",
+    "note": "taxi"
+  },
+  {
+    "id": "import_96",
+    "date": "2026-01-31",
+    "amount": 70.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "jos novaca za rodjendan"
+  },
+  {
+    "id": "import_97",
+    "date": "2026-02-01",
+    "amount": 12.0,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava za curu i mene + njenoj najmladjoj sestri roza vruca cokolada"
+  },
+  {
+    "id": "import_98",
+    "date": "2026-02-02",
+    "amount": 58.0,
+    "type": "expense",
+    "category": "Hrana",
+    "note": "vecera s curom da ju pocastim za svoj rodjendan koji je bio"
+  },
+  {
+    "id": "import_99",
+    "date": "2026-02-04",
+    "amount": 4.1,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "pekara"
+  },
+  {
+    "id": "import_100",
+    "date": "2026-02-05",
+    "amount": 5.93,
+    "type": "expense",
+    "category": "Transport",
+    "note": "uber"
+  },
+  {
+    "id": "import_101",
+    "date": "2026-02-06",
+    "amount": 5.0,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava s frendom, ja castio"
+  },
+  {
+    "id": "import_102",
+    "date": "2026-02-07",
+    "amount": 0.7,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "pekara"
+  },
+  {
+    "id": "import_103",
+    "date": "2026-02-08",
+    "amount": 20.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "baka dala"
+  },
+  {
+    "id": "import_104",
+    "date": "2026-02-08",
+    "amount": 10.0,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "castio frendove jer je bio moj red"
+  },
+  {
+    "id": "import_105",
+    "date": "2026-02-12",
+    "amount": 1.35,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "zvake"
+  },
+  {
+    "id": "import_106",
+    "date": "2026-02-12",
+    "amount": 1.72,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza"
+  },
+  {
+    "id": "import_107",
+    "date": "2026-02-12",
+    "amount": 1.95,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_108",
+    "date": "2026-02-12",
+    "amount": 50.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "tata dao za nagradu sto sam prosao sve ispitne rokove"
+  },
+  {
+    "id": "import_109",
+    "date": "2026-02-13",
+    "amount": 4.49,
+    "type": "expense",
+    "category": "Hrana",
+    "note": "jagode"
+  },
+  {
+    "id": "import_110",
+    "date": "2026-02-13",
+    "amount": 8.0,
+    "type": "expense",
+    "category": "Cvijece",
+    "note": "cvijece"
+  },
+  {
+    "id": "import_111",
+    "date": "2026-02-14",
+    "amount": 4.0,
+    "type": "expense",
+    "category": "Cvijece",
+    "note": "cvijece u teglici"
+  },
+  {
+    "id": "import_112",
+    "date": "2026-02-14",
+    "amount": 4.2,
+    "type": "expense",
+    "category": "Fast Food",
+    "note": "kfc malo za mene + boca vode za curu"
+  },
+  {
+    "id": "import_113",
+    "date": "2026-02-14",
+    "amount": 6.0,
+    "type": "expense",
+    "category": "Izlasci",
+    "note": "2 ulaznice za curu i mene za sajam cokolade"
+  },
+  {
+    "id": "import_114",
+    "date": "2026-02-14",
+    "amount": 15.0,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "cokoladni Prosche Carrera"
+  },
+  {
+    "id": "import_115",
+    "date": "2026-02-14",
+    "amount": 1.58,
+    "type": "expense",
+    "category": "Pice",
+    "note": "2x kindermilchschnitte"
+  },
+  {
+    "id": "import_116",
+    "date": "2026-02-14",
+    "amount": 5.0,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "2x trokuta pizze"
+  },
+  {
+    "id": "import_117",
+    "date": "2026-02-14",
+    "amount": 17.0,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "2x guinness pint"
+  },
+  {
+    "id": "import_118",
+    "date": "2026-02-14",
+    "amount": 4.16,
+    "type": "expense",
+    "category": "Transport",
+    "note": "uber do curinog stana"
+  },
+  {
+    "id": "import_119",
+    "date": "2026-02-16",
+    "amount": 6.0,
+    "type": "expense",
+    "category": "Fast Food",
+    "note": "mcdonalds s ekipom, ja platio curi i meni"
+  },
+  {
+    "id": "import_120",
+    "date": "2026-02-19",
+    "amount": 3.5,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo s ekipom"
+  },
+  {
+    "id": "import_121",
+    "date": "2026-02-20",
+    "amount": 50.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "tata dao"
+  },
+  {
+    "id": "import_122",
+    "date": "2026-02-20",
+    "amount": 8.0,
+    "type": "expense",
+    "category": "Pice",
+    "note": "pice s frendovima"
+  },
+  {
+    "id": "import_123",
+    "date": "2026-02-22",
+    "amount": 1.3,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_124",
+    "date": "2026-02-22",
+    "amount": 4.6,
+    "type": "expense",
+    "category": "Fast Food",
+    "note": "mcdonalds"
+  },
+  {
+    "id": "import_125",
+    "date": "2026-02-22",
+    "amount": 3.95,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "5 kindermilchschnitta"
+  },
+  {
+    "id": "import_126",
+    "date": "2026-02-23",
+    "amount": 140.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "dali roditelji za put s curom na more"
+  },
+  {
+    "id": "import_127",
+    "date": "2026-02-24",
+    "amount": 17.3,
+    "type": "expense",
+    "category": "Transport",
+    "note": "ja platio cestarinu"
+  },
+  {
+    "id": "import_128",
+    "date": "2026-02-24",
+    "amount": 12.9,
+    "type": "expense",
+    "category": "Kondomi",
+    "note": "kondomi"
+  },
+  {
+    "id": "import_129",
+    "date": "2026-02-27",
+    "amount": 14.0,
+    "type": "expense",
+    "category": "Izlasci",
+    "note": "2 karte za kino za film za curu i mene"
+  },
+  {
+    "id": "import_130",
+    "date": "2026-02-28",
+    "amount": 10.0,
+    "type": "expense",
+    "category": "Hrana",
+    "note": "velika tortilja + boca vode dok cekam za bus na autobusom kolodvoru jer nisam stigao doruckovati"
+  },
+  {
+    "id": "import_131",
+    "date": "2026-03-04",
+    "amount": 10.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "jer sam tati ucinio uslugu"
+  },
+  {
+    "id": "import_132",
+    "date": "2026-03-05",
+    "amount": 2.2,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava s deckima za projekt za faks"
+  },
+  {
+    "id": "import_133",
+    "date": "2026-03-05",
+    "amount": 8.4,
+    "type": "expense",
+    "category": "Pice",
+    "note": "cura i ja bili u kaficu i pili domaci biterlemon"
+  },
+  {
+    "id": "import_134",
+    "date": "2026-03-06",
+    "amount": 20.0,
+    "type": "expense",
+    "category": "Osobna higijena",
+    "note": "sisanje"
+  },
+  {
+    "id": "import_135",
+    "date": "2026-03-07",
+    "amount": 6.4,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "stvari u ducanu"
+  },
+  {
+    "id": "import_136",
+    "date": "2026-03-07",
+    "amount": 23.2,
+    "type": "expense",
+    "category": "Groceries",
+    "note": "groceries"
+  },
+  {
+    "id": "import_137",
+    "date": "2026-03-08",
+    "amount": 4.08,
+    "type": "expense",
+    "category": "Hrana",
+    "note": "boca L vode + sladoled za curu"
+  },
+  {
+    "id": "import_138",
+    "date": "2026-03-08",
+    "amount": 4.16,
+    "type": "expense",
+    "category": "Groceries",
+    "note": "margarin i piskoti/groceries"
+  },
+  {
+    "id": "import_139",
+    "date": "2026-03-09",
+    "amount": 10.53,
+    "type": "expense",
+    "category": "Groceries",
+    "note": "groceries"
+  },
+  {
+    "id": "import_140",
+    "date": "2026-03-09",
+    "amount": 1.0,
+    "type": "expense",
+    "category": "Pekara",
+    "note": "kruh"
+  },
+  {
+    "id": "import_141",
+    "date": "2026-03-09",
+    "amount": 6.0,
+    "type": "expense",
+    "category": "Izlasci",
+    "note": "ulaznica za event za curu, ja imam free upad"
+  },
+  {
+    "id": "import_142",
+    "date": "2026-03-09",
+    "amount": 13.86,
+    "type": "expense",
+    "category": "Groceries",
+    "note": "groceries"
+  },
+  {
+    "id": "import_143",
+    "date": "2026-03-09",
+    "amount": 75.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "tata poslao dok sam sam od kad je mama osla na put 6.3 i vraca se 10.3"
+  },
+  {
+    "id": "import_144",
+    "date": "2026-03-11",
+    "amount": 2.07,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza rucak"
+  },
+  {
+    "id": "import_145",
+    "date": "2026-03-11",
+    "amount": 6.0,
+    "type": "expense",
+    "category": "Izlasci",
+    "note": "ulaznica za podravsku vecer party s curom i frendicama"
+  },
+  {
+    "id": "import_146",
+    "date": "2026-03-11",
+    "amount": 6.5,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_147",
+    "date": "2026-03-11",
+    "amount": 6.0,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "pivo"
+  },
+  {
+    "id": "import_148",
+    "date": "2026-03-11",
+    "amount": 15.5,
+    "type": "expense",
+    "category": "Kebab",
+    "note": "kebab meni + pommes i nuggets curi"
+  },
+  {
+    "id": "import_149",
+    "date": "2026-03-11",
+    "amount": 3.57,
+    "type": "expense",
+    "category": "Transport",
+    "note": "uber do cure doma, otpratio ju do tamo i prespavao"
+  },
+  {
+    "id": "import_150",
+    "date": "2026-03-12",
+    "amount": 3.27,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza rucak za curu i mene"
+  },
+  {
+    "id": "import_151",
+    "date": "2026-03-12",
+    "amount": 10.0,
+    "type": "expense",
+    "category": "Kupovina",
+    "note": "Steve jobs biografija by Walter Isaacson"
+  },
+  {
+    "id": "import_152",
+    "date": "2026-03-13",
+    "amount": 15.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "od mame za uslugu"
+  },
+  {
+    "id": "import_153",
+    "date": "2026-03-13",
+    "amount": 10.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "od frendice koja mi je bila duzna"
+  },
+  {
+    "id": "import_154",
+    "date": "2026-03-13",
+    "amount": 1.45,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza rucak"
+  },
+  {
+    "id": "import_155",
+    "date": "2026-03-16",
+    "amount": 6.0,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava s curom"
+  },
+  {
+    "id": "import_156",
+    "date": "2026-03-17",
+    "amount": 2.5,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "mineralna"
+  },
+  {
+    "id": "import_157",
+    "date": "2026-03-17",
+    "amount": 2.0,
+    "type": "expense",
+    "category": "Pice",
+    "note": "dao frendu jer mu je falilo da plati svoje pice"
+  },
+  {
+    "id": "import_158",
+    "date": "2026-03-18",
+    "amount": 0.8,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava u aparatu"
+  },
+  {
+    "id": "import_159",
+    "date": "2026-03-18",
+    "amount": 1.69,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza rucak"
+  },
+  {
+    "id": "import_160",
+    "date": "2026-03-19",
+    "amount": 5.5,
+    "type": "income",
+    "category": "Prihod",
+    "note": "mama dala"
+  },
+  {
+    "id": "import_161",
+    "date": "2026-03-20",
+    "amount": 0.85,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "salata dressing"
+  },
+  {
+    "id": "import_162",
+    "date": "2026-03-20",
+    "amount": 4.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "od mame"
+  },
+  {
+    "id": "import_163",
+    "date": "2026-03-20",
+    "amount": 14.8,
+    "type": "expense",
+    "category": "Fast Food",
+    "note": "mcdonalds s curom"
+  },
+  {
+    "id": "import_164",
+    "date": "2026-03-22",
+    "amount": 3.23,
+    "type": "expense",
+    "category": "Kondomi",
+    "note": "mlijeko + kondomi"
+  },
+  {
+    "id": "import_165",
+    "date": "2026-03-22",
+    "amount": 4.5,
+    "type": "expense",
+    "category": "Ostalo",
+    "note": "mami cigarete"
+  },
+  {
+    "id": "import_166",
+    "date": "2026-03-22",
+    "amount": 20.0,
+    "type": "income",
+    "category": "Prihod",
+    "note": "od mame"
+  },
+  {
+    "id": "import_167",
+    "date": "2026-03-23",
+    "amount": 3.0,
+    "type": "expense",
+    "category": "Pice",
+    "note": "strukani pelinkovac"
+  },
+  {
+    "id": "import_168",
+    "date": "2026-03-23",
+    "amount": 2.2,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_169",
+    "date": "2026-03-25",
+    "amount": 2.59,
+    "type": "expense",
+    "category": "Menza",
+    "note": "menza rucak"
+  },
+  {
+    "id": "import_170",
+    "date": "2026-03-25",
+    "amount": 1.9,
+    "type": "expense",
+    "category": "Kava",
+    "note": "kava"
+  },
+  {
+    "id": "import_171",
+    "date": "2026-03-27",
+    "amount": 22.5,
+    "type": "expense",
+    "category": "Kupovina",
+    "note": "kupio Claude pro primarno za claude code da moze pomoci oko Experimate-a jer je jako bitno da to zavrsimo cim prije"
+  },
+  {
+    "id": "import_172",
+    "date": "2026-03-28",
+    "amount": 15.6,
+    "type": "expense",
+    "category": "Pivo",
+    "note": "piva na partyu, 2 meni jedno curi, 5.2 komat"
+  }
+]

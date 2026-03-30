@@ -8,9 +8,11 @@ import CalendarHeader from "./components/CalendarHeader";
 import CalendarGrid from "./components/CalendarGrid";
 import MonthlyTotal from "./components/MonthlyTotal";
 import TransactionModal from "./components/TransactionModal";
+import * as DocumentPicker from 'expo-document-picker'
+import * as FileSystem from 'expo-file-system'
 
 const MoneyScreen = () => {
-  const { transactions, addTransaction, deleteTransaction, updateTransaction } =
+  const { transactions, addTransaction, deleteTransaction, updateTransaction, importTransactions } =
     useTransactions();
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -47,6 +49,14 @@ const MoneyScreen = () => {
     await Share.share({ message: text });
   };
 
+  const handleImport = async () => {
+    const result = await DocumentPicker.getDocumentAsync({ type: 'application/json' });
+    if(result.canceled) return;
+    const text = await FileSystem.readAsStringAsync(result.assets[0].uri);
+    const parsed = JSON.parse(text);
+    importTransactions(parsed);
+  }
+
   return (
     <View style={styles.container}>
       <CalendarHeader
@@ -64,6 +74,9 @@ const MoneyScreen = () => {
       <MonthlyTotal total={totalSpent} />
       <TouchableOpacity style={styles.exportButton} onPress={handleExport}>
         <Text style={styles.exportText}>Export as TXT</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.exportButton} onPress={handleImport}>
+        <Text style={styles.exportText}>Import JSON</Text>
       </TouchableOpacity>
       <TransactionModal
         visible={modalVisible}

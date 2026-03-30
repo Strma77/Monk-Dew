@@ -118,7 +118,25 @@ Amount always positive: type field communicates direction.
 - Ionicons — `name`, `color`, `size` props (color/size are NOT in style)
 
 ## Current Status
-- Money module complete, APK built and installed on phone via EAS.
-- Export as TXT feature added — shares monthly transactions grouped by day via native share sheet.
-- Next: pick next module — sleep, habits, or gym.
+
+### Done
+- Money module complete — calendar, transaction logging, edit/delete, monthly total.
+- Export as TXT — shares monthly transactions grouped by day via native share sheet.
+- APK built and installed on phone via EAS (production profile, Android APK).
+- OTA updates configured — `expo-updates` installed, `app.json` has updates URL + runtimeVersion, `eas.json` production profile has `channel: "production"`. Future JS changes deploy with `eas update --branch production --message "..."`, no reinstall needed.
+- Modal fixes: income/expense color in day list, amount shown before category, keyboard avoiding view added.
+
+### In Progress — Import from previous months
+Goal: let user pick a JSON file (exported from Claude Pro) and load it into AsyncStorage.
+- `expo-document-picker` and `expo-file-system` installed (needed for file picking + reading).
+- `softwareKeyboardLayoutMode: "pan"` added to app.json android block (keyboard fix — needs rebuild to take effect).
+- Claude Pro is converting 4 months of personal TXT notes → JSON array of transaction objects.
+- JSON format: `{ id, date (YYYY-MM-DD), amount, type (expense/income), category, note }`
+- **Still to build:**
+  - `importTransactions(newTransactions)` function in `useTransactions.js` — merges array into storage, deduplicates by id
+  - "Import JSON" button in `MoneyScreen.js` — opens file picker, reads file, calls importTransactions
+  - One more rebuild to bake in native modules (document-picker, file-system) + keyboard fix
+
+### Next after import
+- Pick next module: sleep, habits, or gym.
 - Future money improvements: layout polish, spending charts, 0-spend points system.

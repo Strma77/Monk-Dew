@@ -92,26 +92,41 @@ npx expo start --web   # web preview (recommended during development)
 npx expo start         # scan QR with Expo Go
 ```
 
-## Building for Android
+## Deploying updates
 
-To install as a native APK directly on your Android device:
+**JS-only changes (no reinstall needed):**
+```bash
+eas update --branch production --message "what changed"
+```
+The installed app checks for updates on launch and applies them automatically.
+
+**Native changes** (new packages with native modules, android/ios config in app.json):
+```bash
+eas build --platform android --profile production
+```
+Download and install the new APK. Only needed when native code changes.
+
+## Building for Android
 
 ```bash
 npm install -g eas-cli
-eas build --platform android --profile preview
+eas build --platform android --profile production
 ```
 
-Requires an Expo account. Only needed when installing the real app — for development, web preview is sufficient.
+Requires an Expo account.
 
 ## Notes
 
 - All data is stored locally via AsyncStorage. Uninstalling the app deletes all data.
+- OTA updates via `expo-updates` — app checks `https://u.expo.dev/{projectId}` on each launch.
 - The canary SDK version may cause issues with Expo Go — use `--web` for development previewing.
 
 ## Roadmap
 
 - [x] Money tracker — calendar, transactions, categories, edit/delete, no-spend highlights, TXT export
-- [x] Build preview APK and install on device (EAS Build)
+- [x] EAS Build — production APK installed on device
+- [x] OTA updates — expo-updates configured, JS changes deploy without reinstall
+- [ ] Import JSON — load past months from file into AsyncStorage
 - [ ] Sleep tracker
 - [ ] Habits tracker
 - [ ] Gym / workout logger
