@@ -125,16 +125,9 @@ Amount always positive: type field communicates direction.
 - APK built and installed on phone via EAS (production profile, Android APK).
 - OTA updates configured — `expo-updates` installed, `app.json` has updates URL + runtimeVersion, `eas.json` production profile has `channel: "production"`. Future JS changes deploy with `eas update --branch production --message "..."`, no reinstall needed.
 - Modal fixes: income/expense color in day list, amount shown before category, keyboard avoiding view added.
+- Native module rebuild done: `expo-document-picker` + `expo-file-system` installed, APK rebuilt via EAS, import JSON working.
+- Bug fix: `getTotalSpent` in `calculations.js` was summing all months — filter now correctly checks month and year from the date string.
 
-### In Progress — Rebuild with native modules
-All import code is written and reviewed. Waiting on EAS build (free tier queue).
-- `expo-document-picker` and `expo-file-system` installed.
-- `softwareKeyboardLayoutMode: "pan"` added to app.json android block (keyboard fix).
-- `transactions.json` — 4 months of past data converted by Claude Pro, sits in project root, ready to import.
-- `importTransactions` added to `useTransactions.js` — deduplicates by id, merges into storage.
-- "Import JSON" button added to `MoneyScreen.js` — picks file, reads it, calls importTransactions.
-- **Waiting on:** EAS build to finish → install APK → test import + keyboard fix.
-
-### Next after rebuild
+### In Progress
 - Pick next module: sleep, habits, or gym.
 - Future money improvements: layout polish, spending charts, 0-spend points system.
