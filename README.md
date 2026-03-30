@@ -126,7 +126,7 @@ Requires an Expo account.
 - [x] Money tracker — calendar, transactions, categories, edit/delete, no-spend highlights, TXT export
 - [x] EAS Build — production APK installed on device
 - [x] OTA updates — expo-updates configured, JS changes deploy without reinstall
-- [ ] Import JSON — load past months from file into AsyncStorage
+- [x] Import JSON — code complete, waiting on EAS rebuild to install native modules
 - [ ] Sleep tracker
 - [ ] Habits tracker
 - [ ] Gym / workout logger

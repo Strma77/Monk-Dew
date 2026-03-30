@@ -126,17 +126,15 @@ Amount always positive: type field communicates direction.
 - OTA updates configured — `expo-updates` installed, `app.json` has updates URL + runtimeVersion, `eas.json` production profile has `channel: "production"`. Future JS changes deploy with `eas update --branch production --message "..."`, no reinstall needed.
 - Modal fixes: income/expense color in day list, amount shown before category, keyboard avoiding view added.
 
-### In Progress — Import from previous months
-Goal: let user pick a JSON file (exported from Claude Pro) and load it into AsyncStorage.
-- `expo-document-picker` and `expo-file-system` installed (needed for file picking + reading).
-- `softwareKeyboardLayoutMode: "pan"` added to app.json android block (keyboard fix — needs rebuild to take effect).
-- Claude Pro is converting 4 months of personal TXT notes → JSON array of transaction objects.
-- JSON format: `{ id, date (YYYY-MM-DD), amount, type (expense/income), category, note }`
-- **Still to build:**
-  - `importTransactions(newTransactions)` function in `useTransactions.js` — merges array into storage, deduplicates by id
-  - "Import JSON" button in `MoneyScreen.js` — opens file picker, reads file, calls importTransactions
-  - One more rebuild to bake in native modules (document-picker, file-system) + keyboard fix
+### In Progress — Rebuild with native modules
+All import code is written and reviewed. Waiting on EAS build (free tier queue).
+- `expo-document-picker` and `expo-file-system` installed.
+- `softwareKeyboardLayoutMode: "pan"` added to app.json android block (keyboard fix).
+- `transactions.json` — 4 months of past data converted by Claude Pro, sits in project root, ready to import.
+- `importTransactions` added to `useTransactions.js` — deduplicates by id, merges into storage.
+- "Import JSON" button added to `MoneyScreen.js` — picks file, reads it, calls importTransactions.
+- **Waiting on:** EAS build to finish → install APK → test import + keyboard fix.
 
-### Next after import
+### Next after rebuild
 - Pick next module: sleep, habits, or gym.
 - Future money improvements: layout polish, spending charts, 0-spend points system.
