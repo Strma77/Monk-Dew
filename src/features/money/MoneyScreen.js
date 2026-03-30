@@ -19,7 +19,7 @@ const MoneyScreen = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const totalSpent = getTotalSpent(transactions);
+  const totalSpent = getTotalSpent(transactions, currentMonth + 1, currentYear);
   const dailyTotals = getDailyTotals(transactions);
 
   const handleDayPress = (day) => {

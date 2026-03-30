@@ -1,5 +1,5 @@
-export const getTotalSpent = (transactions) => {
-    const expenses = transactions.filter(t => t.type === "expense");
+export const getTotalSpent = (transactions, month, year) => {
+    const expenses = transactions.filter(t => t.type === "expense" && parseInt(t.date.split("-")[1]) === month && parseInt(t.date.split("-")[0]) === year);
     const total = expenses.reduce((sum, t) => sum + (parseFloat(t.amount) || 0), 0);
 
     return total;
