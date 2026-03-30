@@ -118,8 +118,7 @@ Amount always positive: type field communicates direction.
 - Ionicons — `name`, `color`, `size` props (color/size are NOT in style)
 
 ## Current Status
-- Money module complete and committed.
-- Tomorrow: build preview APK via EAS and install on phone.
-  - Need Expo account, `npm install -g eas-cli`, `eas login`, `eas build:configure`, then `eas build --platform android --profile preview`
-- Next after phone setup: pick next module — sleep, habits, or gym.
+- Money module complete, APK built and installed on phone via EAS.
+- Export as TXT feature added — shares monthly transactions grouped by day via native share sheet.
+- Next: pick next module — sleep, habits, or gym.
 - Future money improvements: layout polish, spending charts, 0-spend points system.

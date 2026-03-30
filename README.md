@@ -16,6 +16,7 @@ Active development. Money module is complete and in daily use. Sleep, Habits, an
 - Visual indicators: dot on days with transactions, teal tint on no-spend days
 - Monthly spending total (expenses only — goal is spending reduction, not budgeting)
 - Edit and delete existing transactions
+- Export month as formatted TXT (share via any app)
 - Data persisted locally on device via AsyncStorage
 
 ## Tech Stack
@@ -109,8 +110,8 @@ Requires an Expo account. Only needed when installing the real app — for devel
 
 ## Roadmap
 
-- [x] Money tracker — calendar, transactions, categories, edit/delete, no-spend highlights
-- [ ] Build preview APK and install on device (EAS Build)
+- [x] Money tracker — calendar, transactions, categories, edit/delete, no-spend highlights, TXT export
+- [x] Build preview APK and install on device (EAS Build)
 - [ ] Sleep tracker
 - [ ] Habits tracker
 - [ ] Gym / workout logger
