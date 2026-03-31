@@ -3,6 +3,7 @@ import { useState } from "react";
 import { colors } from "../../shared/theme";
 import { useSleep } from "./hooks/useSleep";
 import SleepInput from "./components/SleepInput"
+import SleepGraph from "./components/SleepGraph"
 
 const SleepScreen = () => {
   const {
@@ -17,7 +18,7 @@ const SleepScreen = () => {
   return (
     <View style={styles.container}>
       <SleepInput onSubmit={addSleep}></SleepInput>
-      <Text>GRAPH</Text>
+      <SleepGraph entries={sleep_entries} currentMonth={currentMonth} currentYear={currentYear}></SleepGraph>
     </View>
   );
 };
