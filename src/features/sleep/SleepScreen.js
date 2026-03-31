@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, spacing, fontSize } from "../../shared/theme";
 import useSleep from "./hooks/useSleep";
+import usePoints from "../../shared/usePoints";
 import SleepInput from "./components/SleepInput";
 import SleepGraph from "./components/SleepGraph";
 
@@ -10,6 +11,12 @@ const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'Ju
 
 const SleepScreen = () => {
   const { sleep_entries, addSleep, clearSleep } = useSleep();
+  const { earnSleep } = usePoints();
+
+  const handleSleepSubmit = (dateStr, hours, minutes) => {
+    addSleep(dateStr, hours, minutes);
+    earnSleep();
+  };
 
   const handleClear = () => {
     Alert.alert('Clear sleep data', 'This will delete all sleep entries. Are you sure?', [
@@ -45,7 +52,7 @@ const SleepScreen = () => {
           <Ionicons name="arrow-forward-outline" size={32} color={colors.textPrimary} />
         </TouchableOpacity>
       </View>
-      <SleepInput onSubmit={addSleep} currentMonth={currentMonth} currentYear={currentYear} />
+      <SleepInput onSubmit={handleSleepSubmit} currentMonth={currentMonth} currentYear={currentYear} />
       <SleepGraph entries={sleep_entries} currentMonth={currentMonth} currentYear={currentYear} />
       <TouchableOpacity style={styles.clearButton} onPress={handleClear}>
         <Text style={styles.clearText}>Clear sleep data</Text>

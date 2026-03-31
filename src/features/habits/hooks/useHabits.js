@@ -27,15 +27,24 @@ const useHabits = () => {
         saveToStorage(updated);
     };
 
-    const toggleGoal = (id) => {
+    const toggleGoal = (id, onSectionComplete) => {
         const today = new Date().toISOString().slice(0, 10);
+        const goal = goals.find(g => g.id === id);
+        const wasCompleted = isCompletedThisPeriod(goal);
+
         const updated = goals.map(g => {
             if (g.id !== id) return g;
-            return {
-                ...g,
-                completedOn: isCompletedThisPeriod(g) ? null : today,
-            };
+            return { ...g, completedOn: wasCompleted ? null : today };
         });
+
+        // If just marked complete, check if whole section is done
+        if (!wasCompleted && onSectionComplete) {
+            const sectionDone = updated
+                .filter(g => g.type === goal.type)
+                .every(g => isCompletedThisPeriod(g));
+            if (sectionDone) onSectionComplete(goal.type);
+        }
+
         setGoals(updated);
         saveToStorage(updated);
     };

@@ -1,7 +1,8 @@
 import { View, StyleSheet, Share, TouchableOpacity, Text } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { colors, spacing } from "../../shared/theme";
 import { useTransactions } from "./hooks/useTransactions";
+import usePoints from "../../shared/usePoints";
 import { getTotalSpent, getDailyTotals } from "./utils/calculations";
 import { formatMonthExport } from "./utils/exportTransactions";
 import CalendarHeader from "./components/CalendarHeader";
@@ -14,6 +15,11 @@ import * as FileSystem from 'expo-file-system/legacy'
 const MoneyScreen = () => {
   const { transactions, addTransaction, deleteTransaction, updateTransaction, importTransactions } =
     useTransactions();
+  const { checkSpendAwards } = usePoints();
+
+  useEffect(() => {
+    checkSpendAwards(transactions);
+  }, [transactions]);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);

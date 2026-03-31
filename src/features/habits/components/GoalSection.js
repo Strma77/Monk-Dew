@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors, spacing, fontSize, radius } from '../../../shared/theme';
 import GoalItem from './GoalItem';
+import { isCompletedThisPeriod } from '../utils/habitsModel';
 
-const GoalSection = ({ title, type, goals, onAdd, onToggle, onDelete }) => {
+const GoalSection = ({ title, type, goals, onAdd, onToggle, onDelete, onSectionComplete }) => {
     const [text, setText] = useState('');
 
     const handleAdd = () => {
@@ -13,10 +14,19 @@ const GoalSection = ({ title, type, goals, onAdd, onToggle, onDelete }) => {
     };
 
     const sectionGoals = goals.filter(g => g.type === type);
+    const completedCount = sectionGoals.filter(g => isCompletedThisPeriod(g)).length;
+    const total = sectionGoals.length;
 
     return (
         <View style={styles.section}>
-            <Text style={styles.title}>{title}</Text>
+            <View style={styles.titleRow}>
+                <Text style={styles.title}>{title}</Text>
+                {total > 0 && (
+                    <Text style={[styles.progress, completedCount === total && styles.progressDone]}>
+                        {completedCount}/{total}
+                    </Text>
+                )}
+            </View>
             <View style={styles.inputRow}>
                 <TextInput
                     style={styles.input}
@@ -33,7 +43,7 @@ const GoalSection = ({ title, type, goals, onAdd, onToggle, onDelete }) => {
                 <GoalItem
                     key={goal.id}
                     goal={goal}
-                    onToggle={onToggle}
+                    onToggle={(id) => onToggle(id, onSectionComplete)}
                     onDelete={onDelete}
                 />
             ))}
@@ -45,11 +55,23 @@ const styles = StyleSheet.create({
     section: {
         marginBottom: spacing.lg,
     },
+    titleRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: spacing.sm,
+    },
     title: {
         color: colors.primaryColor,
         fontSize: fontSize.lg,
         fontWeight: 'bold',
-        marginBottom: spacing.sm,
+    },
+    progress: {
+        color: colors.textSecondary,
+        fontSize: fontSize.sm,
+    },
+    progressDone: {
+        color: colors.primaryColor,
     },
     inputRow: {
         flexDirection: 'row',

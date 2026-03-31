@@ -3,6 +3,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors, scale, spacing, fontSize, radius } from '../../../shared/theme';
 import { daysUntilUnlocked } from '../utils/storeModel';
 
+const formatDate = (dateStr) => {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+};
+
 const WishlistItem = ({ item, onBuy, onDelete }) => {
     const daysLeft = daysUntilUnlocked(item);
     const unlocked = daysLeft === 0;
@@ -11,8 +16,10 @@ const WishlistItem = ({ item, onBuy, onDelete }) => {
         <View style={styles.row}>
             <View style={styles.info}>
                 <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.status}>
-                    {unlocked ? 'Ready to buy' : `${daysLeft} day${daysLeft === 1 ? '' : 's'} remaining`}
+                <Text style={styles.meta}>
+                    Added {formatDate(item.addedOn)}
+                    {'  ·  '}
+                    {unlocked ? 'Ready to buy' : `${daysLeft} day${daysLeft === 1 ? '' : 's'} left`}
                 </Text>
             </View>
             {unlocked && (
@@ -45,7 +52,7 @@ const styles = StyleSheet.create({
         color: colors.textPrimary,
         fontSize: fontSize.md,
     },
-    status: {
+    meta: {
         color: colors.textSecondary,
         fontSize: fontSize.sm,
         marginTop: 2,
