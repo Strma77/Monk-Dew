@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../../shared/theme';
 
-const GymScreen = () => {
+const StoreScreen = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.textStyle}>Gym</Text>
+            <Text style={styles.textStyle}>Store</Text>
         </View>   
     );
 };
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default GymScreen;
+export default StoreScreen;
