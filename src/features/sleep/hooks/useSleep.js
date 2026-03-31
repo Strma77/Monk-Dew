@@ -42,5 +42,10 @@ export const useSleep = () => {
         saveToStorage(updatedSleep)
     }
 
-    return { sleep_entries, saveToStorage, addSleep, deleteSleep, updateSleep };
+    const clearSleep = async () => {
+        setSleep([]);
+        await AsyncStorage.removeItem('sleep_entries');
+    };
+
+    return { sleep_entries, saveToStorage, addSleep, deleteSleep, updateSleep, clearSleep };
 }

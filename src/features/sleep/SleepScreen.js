@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, spacing, fontSize } from "../../shared/theme";
@@ -9,7 +9,14 @@ import SleepGraph from "./components/SleepGraph";
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const SleepScreen = () => {
-  const { sleep_entries, addSleep } = useSleep();
+  const { sleep_entries, addSleep, clearSleep } = useSleep();
+
+  const handleClear = () => {
+    Alert.alert('Clear sleep data', 'This will delete all sleep entries. Are you sure?', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Clear', style: 'destructive', onPress: clearSleep },
+    ]);
+  };
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
@@ -40,6 +47,9 @@ const SleepScreen = () => {
       </View>
       <SleepInput onSubmit={addSleep} currentMonth={currentMonth} currentYear={currentYear} />
       <SleepGraph entries={sleep_entries} currentMonth={currentMonth} currentYear={currentYear} />
+      <TouchableOpacity style={styles.clearButton} onPress={handleClear}>
+        <Text style={styles.clearText}>Clear sleep data</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -61,6 +71,15 @@ const styles = StyleSheet.create({
     fontSize: fontSize.lg,
     flex: 1,
     textAlign: 'center',
+  },
+  clearButton: {
+    alignItems: 'center',
+    padding: spacing.md,
+    marginTop: spacing.md,
+  },
+  clearText: {
+    color: colors.expenseColor,
+    fontSize: fontSize.sm,
   },
 });
 
