@@ -1,22 +1,49 @@
-import { View, Text, StyleSheet } from 'react-native';
-import { colors } from '../../shared/theme';
+import { View, ScrollView, StyleSheet } from 'react-native';
+import { colors, spacing } from '../../shared/theme';
+import useHabits from './hooks/useHabits';
+import GoalSection from './components/GoalSection';
 
 const HabitsScreen = () => {
+    const { goals, addGoal, toggleGoal, deleteGoal } = useHabits();
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.textStyle}>Habits</Text>
-        </View>   
+        <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+            <GoalSection
+                title="Daily Goals"
+                type="daily"
+                goals={goals}
+                onAdd={addGoal}
+                onToggle={toggleGoal}
+                onDelete={deleteGoal}
+            />
+            <GoalSection
+                title="Weekly Goals"
+                type="weekly"
+                goals={goals}
+                onAdd={addGoal}
+                onToggle={toggleGoal}
+                onDelete={deleteGoal}
+            />
+            <GoalSection
+                title="Monthly Goals"
+                type="monthly"
+                goals={goals}
+                onAdd={addGoal}
+                onToggle={toggleGoal}
+                onDelete={deleteGoal}
+            />
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    screen: {
         flex: 1,
         backgroundColor: colors.screenBackground,
     },
-    textStyle: {
-        color: colors.textPrimary,
-        fontSize: 24
+    content: {
+        padding: spacing.lg,
+        paddingTop: spacing.xl,
     },
 });
 
