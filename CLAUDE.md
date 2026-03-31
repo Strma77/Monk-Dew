@@ -129,5 +129,45 @@ Amount always positive: type field communicates direction.
 - Bug fix: `getTotalSpent` in `calculations.js` was summing all months — filter now correctly checks month and year from the date string.
 
 ### In Progress
-- Pick next module: sleep, habits, or gym.
+- Sleep module (next up — see plan below).
 - Future money improvements: layout polish, spending charts, 0-spend points system.
+
+## Sleep Module Plan
+
+### Goal
+Manual sleep tracking — input hours/minutes slept each morning, view as a line graph per month.
+
+### Data Model
+```js
+{ id, date, hours, minutes }
+// date = YYYY-MM-DD (wake-up date)
+// example: slept 31.3, woke 1.4 → date is 2026-04-01
+```
+
+### Screen Layout (top to bottom)
+1. Month navigation (same as money)
+2. Input — hours + minutes, submit button
+3. Line graph — grid + dots + connecting lines
+
+### Graph Design
+- Grid background (graph paper style) — vertical lines per day, horizontal lines per hour
+- Y-axis: 4h (top) to 10h (bottom) — inverted, less sleep = higher = worse. Fixed range.
+- X-axis: days 1–31 of selected month
+- Dots per logged day, connected by lines
+- Auto-updates on new entry
+
+### Folder Structure
+```
+src/features/sleep/
+  SleepScreen.js
+  components/
+    SleepInput.js
+    SleepGraph.js
+  hooks/
+    useSleep.js
+  utils/
+    sleepModel.js
+```
+
+### Dependencies
+- `react-native-svg` — for drawing the graph (lines, circles, grid)
