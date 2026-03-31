@@ -116,21 +116,31 @@ Amount always positive: type field communicates direction.
 - `TextInput` — controlled inputs with `value` and `onChangeText`
 - `scale()` and `vScale()` — responsive sizing based on screen dimensions
 - Ionicons — `name`, `color`, `size` props (color/size are NOT in style)
+- `react-native-svg` — `<Svg>`, `<Line>`, `<Circle>`, `<Polyline>`, `<Text as SvgText>` for drawing graphs
+- SVG coordinate math — map data values to pixel positions using canvas width/height and axis ranges
+- `useWindowDimensions` — get screen width/height reactively for responsive SVG sizing
+- Module-level constants (e.g. `const TODAY = new Date()`) — stable across re-renders, unlike variables inside components
+- `Alert.alert` — native confirmation dialog with action buttons
+- `|| 0` fallback — `parseInt('') || 0` safely handles empty numeric inputs
 
 ## Current Status
 
 ### Done
 - Money module complete — calendar, transaction logging, edit/delete, monthly total.
-- Export as TXT — shares monthly transactions grouped by day via native share sheet.
+- Export as TXT — shares monthly transactions grouped by day via native share sheet. Includes note if present.
 - APK built and installed on phone via EAS (production profile, Android APK).
 - OTA updates configured — `expo-updates` installed, `app.json` has updates URL + runtimeVersion, `eas.json` production profile has `channel: "production"`. Future JS changes deploy with `eas update --branch production --message "..."`, no reinstall needed.
 - Modal fixes: income/expense color in day list, amount shown before category, keyboard avoiding view added.
 - Native module rebuild done: `expo-document-picker` + `expo-file-system` installed, APK rebuilt via EAS, import JSON working.
 - Bug fix: `getTotalSpent` in `calculations.js` was summing all months — filter now correctly checks month and year from the date string.
+- Save confirmation: save button flashes green (✓) on both money and sleep after logging.
+- Sleep module complete — day stepper input (capped at today, defaults to today or day 1 for past months), line graph with grid + axis labels, month navigation, duplicate prevention (same date overwrites), clear sleep data button with confirmation alert.
+- `react-native-svg` added — required APK rebuild via EAS.
 
 ### In Progress
-- Sleep module (next up — see plan below).
+- Pick next module: habits or gym.
 - Future money improvements: layout polish, spending charts, 0-spend points system.
+- Future cross-module: points/shop system connecting money (0-spend days) and sleep.
 
 ## Sleep Module Plan
 
