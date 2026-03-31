@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
+    paddingTop: spacing.xl,
   },
   headerText: {
     color: colors.textPrimary,

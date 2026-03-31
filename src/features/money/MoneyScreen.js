@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.screenBackground,
     padding: spacing.md,
+    paddingTop: spacing.xl,
   },
   textStyle: {
     color: colors.textPrimary,

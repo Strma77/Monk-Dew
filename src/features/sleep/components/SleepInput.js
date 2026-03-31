@@ -31,7 +31,7 @@ const SleepInput = ({ onSubmit, currentMonth, currentYear }) => {
 
     const handleSubmit = () => {
         const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        onSubmit(dateStr, parseInt(hours), parseInt(minutes));
+        onSubmit(dateStr, parseInt(hours) || 0, parseInt(minutes) || 0);
         setHours('');
         setMinutes('');
         setSaved(true);
