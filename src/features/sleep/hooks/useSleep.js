@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { createSleepEntry } from "../utils/sleepModel"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default useSleep = () => {
+const useSleep = () => {
     const [sleep_entries, setSleep] = useState([]);
 
         const loadData = async () => {
@@ -48,4 +48,6 @@ export default useSleep = () => {
     };
 
     return { sleep_entries, saveToStorage, addSleep, deleteSleep, updateSleep, clearSleep };
-}
+};
+
+export default useSleep;

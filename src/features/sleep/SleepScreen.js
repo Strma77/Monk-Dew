@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, spacing, fontSize } from "../../shared/theme";
-import { useSleep } from "./hooks/useSleep";
+import useSleep from "./hooks/useSleep";
 import SleepInput from "./components/SleepInput";
 import SleepGraph from "./components/SleepGraph";
 

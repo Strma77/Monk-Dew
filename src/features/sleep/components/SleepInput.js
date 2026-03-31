@@ -34,6 +34,7 @@ const SleepInput = ({ onSubmit, currentMonth, currentYear }) => {
         onSubmit(dateStr, parseInt(hours) || 0, parseInt(minutes) || 0);
         setHours('');
         setMinutes('');
+        if (day < maxDay) setDay(day + 1);
         setSaved(true);
         setTimeout(() => setSaved(false), 1500);
     };
