@@ -1,20 +1,55 @@
-import { View, TextInput, Text, TouchableOpacity, StyleSheet } from "react-native"
-import { useState } from "react";
-import { colors, scale, spacing, fontSize, radius } from "../../../shared/theme";
+import { View, TextInput, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useState, useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { colors, spacing, fontSize, radius } from "../../../shared/theme";
 
-const SleepInput = ({ onSubmit }) => {
-    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+const SleepInput = ({ onSubmit, currentMonth, currentYear }) => {
+    const today = new Date();
+    const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const defaultDay = isCurrentMonth ? today.getDate() : 1;
+    const maxDay = isCurrentMonth ? today.getDate() : daysInMonth;
+
+    const [day, setDay] = useState(defaultDay);
     const [hours, setHours] = useState('');
     const [minutes, setMinutes] = useState('');
 
+    useEffect(() => {
+        const newIsCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+        const newDefault = newIsCurrentMonth ? today.getDate() : 1;
+        setDay(newDefault);
+    }, [currentMonth, currentYear]);
+
+    const handlePrevDay = () => {
+        if (day > 1) setDay(day - 1);
+    };
+
+    const handleNextDay = () => {
+        if (day < maxDay) setDay(day + 1);
+    };
+
     const handleSubmit = () => {
-        onSubmit(date, parseInt(hours), parseInt(minutes));
+        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        onSubmit(dateStr, parseInt(hours), parseInt(minutes));
         setHours('');
         setMinutes('');
-    }
+    };
 
     return (
         <View style={styles.container}>
+            <View style={styles.dateRow}>
+                <Text style={styles.label}>Day</Text>
+                <View style={styles.dayStepper}>
+                    <TouchableOpacity onPress={handlePrevDay} disabled={day === 1}>
+                        <Ionicons name="chevron-back" size={22} color={day === 1 ? colors.textSecondary : colors.textPrimary} />
+                    </TouchableOpacity>
+                    <Text style={styles.dayText}>{day}</Text>
+                    <TouchableOpacity onPress={handleNextDay} disabled={day === maxDay}>
+                        <Ionicons name="chevron-forward" size={22} color={day === maxDay ? colors.textSecondary : colors.textPrimary} />
+                    </TouchableOpacity>
+                </View>
+            </View>
             <View style={styles.row}>
                 <View style={styles.inputGroup}>
                     <Text style={styles.label}>Hours</Text>
@@ -46,7 +81,7 @@ const SleepInput = ({ onSubmit }) => {
             </View>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -54,7 +89,27 @@ const styles = StyleSheet.create({
         backgroundColor: colors.surfaceColor,
         borderRadius: radius.md,
         margin: spacing.xl,
-        marginTop: spacing.xl * 3
+        marginTop: spacing.xl * 3,
+    },
+    dateRow: {
+        marginBottom: spacing.sm,
+    },
+    dayStepper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: colors.screenBackground,
+        borderRadius: radius.sm,
+        borderWidth: 1,
+        borderColor: colors.borderColor,
+        paddingVertical: spacing.xs,
+        paddingHorizontal: spacing.sm,
+        justifyContent: 'space-between',
+    },
+    dayText: {
+        color: colors.textPrimary,
+        fontSize: fontSize.lg,
+        minWidth: 30,
+        textAlign: 'center',
     },
     row: {
         flexDirection: 'row',
