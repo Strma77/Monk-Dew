@@ -19,7 +19,7 @@ export const formatMonthExport = (transactions, year, month) => {
 
         let sum = 0;
         for(const t of grouped[date]){
-            output += `${t.amount}€ - ${t.category}\n`;
+            output += `${t.amount}€ - ${t.category}${t.note ? `(${t.note})` : ''}\n`;
             if(t.type === 'expense') sum += t.amount;
             else sum -= t.amount;
         }
