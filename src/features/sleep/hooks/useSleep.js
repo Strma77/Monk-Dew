@@ -24,7 +24,10 @@ export const useSleep = () => {
     };
     const addSleep = (date, hours, minutes) => {
         const newSleep = createSleepEntry(date, hours, minutes);
-        const updatedSleep = [...sleep_entries, newSleep];
+        const exists = sleep_entries.some(e => e.date === date);
+        const updatedSleep = exists
+            ? sleep_entries.map(e => e.date === date ? { ...newSleep, id: e.id } : e)
+            : [...sleep_entries, newSleep];
         setSleep(updatedSleep);
         saveToStorage(updatedSleep);
     };

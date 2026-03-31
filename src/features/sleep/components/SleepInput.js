@@ -3,22 +3,22 @@ import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, spacing, fontSize, radius } from "../../../shared/theme";
 
-const SleepInput = ({ onSubmit, currentMonth, currentYear }) => {
-    const today = new Date();
-    const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+const TODAY = new Date();
 
+const SleepInput = ({ onSubmit, currentMonth, currentYear }) => {
+    const isCurrentMonth = TODAY.getMonth() === currentMonth && TODAY.getFullYear() === currentYear;
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const defaultDay = isCurrentMonth ? today.getDate() : 1;
-    const maxDay = isCurrentMonth ? today.getDate() : daysInMonth;
+    const defaultDay = isCurrentMonth ? TODAY.getDate() : 1;
+    const maxDay = isCurrentMonth ? TODAY.getDate() : daysInMonth;
 
     const [day, setDay] = useState(defaultDay);
     const [hours, setHours] = useState('');
     const [minutes, setMinutes] = useState('');
+    const [saved, setSaved] = useState(false);
 
     useEffect(() => {
-        const newIsCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
-        const newDefault = newIsCurrentMonth ? today.getDate() : 1;
-        setDay(newDefault);
+        const isCurrent = TODAY.getMonth() === currentMonth && TODAY.getFullYear() === currentYear;
+        setDay(isCurrent ? TODAY.getDate() : 1);
     }, [currentMonth, currentYear]);
 
     const handlePrevDay = () => {
@@ -34,6 +34,8 @@ const SleepInput = ({ onSubmit, currentMonth, currentYear }) => {
         onSubmit(dateStr, parseInt(hours), parseInt(minutes));
         setHours('');
         setMinutes('');
+        setSaved(true);
+        setTimeout(() => setSaved(false), 1500);
     };
 
     return (
@@ -75,8 +77,8 @@ const SleepInput = ({ onSubmit, currentMonth, currentYear }) => {
                         maxLength={2}
                     />
                 </View>
-                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                    <Text style={styles.buttonText}>Save</Text>
+                <TouchableOpacity style={[styles.button, saved && styles.buttonSaved]} onPress={handleSubmit}>
+                    <Text style={styles.buttonText}>{saved ? '✓' : 'Save'}</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -141,6 +143,9 @@ const styles = StyleSheet.create({
         borderRadius: radius.sm,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    buttonSaved: {
+        backgroundColor: colors.incomeColor,
     },
     buttonText: {
         color: colors.screenBackground,

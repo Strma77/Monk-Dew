@@ -40,6 +40,7 @@ export default function TransactionModal({
   const [note, setNote] = useState("");
   const [customCategory, setCustomCategory] = useState("");
   const [editingTransaction, setEditingTransaction] = useState(null);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     if (visible) {
@@ -176,7 +177,7 @@ export default function TransactionModal({
                     placeholder="description"
                   ></TextInput>
                   <TouchableOpacity
-                    style={styles.saveButton}
+                    style={[styles.saveButton, saved && styles.saveButtonSaved]}
                     onPress={() => {
                       const finalCategory =
                         category === "Other" ? customCategory : category;
@@ -196,11 +197,15 @@ export default function TransactionModal({
                           category: finalCategory,
                           note,
                         });
-                        onClose();
+                        setSaved(true);
+                        setTimeout(() => {
+                          setSaved(false);
+                          onClose();
+                        }, 800);
                       }
                     }}
                   >
-                    <Text style={styles.buttonText}>Save</Text>
+                    <Text style={styles.buttonText}>{saved ? '✓ Saved' : 'Save'}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.cancelButton}
@@ -249,6 +254,9 @@ const styles = StyleSheet.create({
     borderRadius: radius.sm,
     alignItems: "center",
     marginBottom: spacing.sm,
+  },
+  saveButtonSaved: {
+    backgroundColor: colors.incomeColor,
   },
   cancelButton: {
     padding: spacing.md,
