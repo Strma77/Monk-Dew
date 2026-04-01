@@ -1,7 +1,7 @@
 # Monk-Dew — Project Reference
 
 ## What This App Is
-A personal life tracking app built in React Native (Expo). Modular — each life domain is a self-contained feature. Starting with money tracking, will expand to sleep, habits, gym.
+A personal life tracking app built in React Native (Expo). Modular — each life domain is a self-contained feature. Money, sleep, habits, store, stats.
 
 ## Teaching Approach
 - The user writes all code himself. Claude explains concepts first, then says what to write and why, then reviews.
@@ -23,6 +23,7 @@ A personal life tracking app built in React Native (Expo). Modular — each life
 - React Navigation v7 — bottom tab navigator
 - AsyncStorage — for persisting data to device
 - `@expo/vector-icons` (Ionicons) — already included with Expo, no install needed
+- `react-native-svg` — for graphs and charts
 
 ## Folder Structure
 ```
@@ -30,19 +31,32 @@ src/
   features/
     money/
       MoneyScreen.js
-      components/       — UI pieces used only by money feature
-      hooks/            — custom hooks for money feature
-      utils/            — pure logic, no UI (calculations, calendar, data model)
+      components/       — CalendarGrid, CalendarHeader, DayCell, MonthlyTotal, SpendingChart, TransactionModal
+      hooks/            — useTransactions
+      utils/            — calculations, calendarUtils, exportTransactions, transactionModel
     sleep/
       SleepScreen.js
+      components/       — SleepGraph, SleepInput
+      hooks/            — useSleep
+      utils/            — sleepModel (createSleepEntry, calcSleepPoints)
     habits/
       HabitsScreen.js
-    gym/
-      GymScreen.js
+      components/       — GoalItem, GoalSection, HabitsHistory
+      hooks/            — useHabits (goals, dailyLog, showTemplateSetup)
+      utils/            — habitsModel
+    store/
+      StoreScreen.js
+      components/       — RewardItem, WishlistItem
+      hooks/            — useRewards (rewardsLoaded, activeRewards), useStore
+      utils/            — rewardsConfig, storeModel
+    stats/
+      StatsScreen.js    — BitLife-style pillar bars for Sleep/Habits/Money/Points
   navigation/
-    AppNavigator.js     — bottom tab navigator, wires all screens together
+    AppNavigator.js     — bottom tab navigator (Money, Sleep, Habits, Store, Stats)
   shared/
-    theme.js            — design tokens (colors, spacing, fontSize, radius)
+    theme.js            — design tokens (colors, spacing, fontSize, radius, scale, vScale)
+    usePoints.js        — shared points/streaks/penalties hook
+    notifications.js    — all scheduled + triggered notifications
 ```
 
 Feature-based structure: all code for a feature lives together. Shared things go in `shared/`.
@@ -63,12 +77,6 @@ Feature-based structure: all code for a feature lives together. Shared things go
 - Radius: `sm:6, md:12, lg:20`.
 - Never hardcode raw pixel values — use `scale()` or theme tokens.
 
-## Money Screen Design
-- Main view: calendar — tap a date to log transactions for that day.
-- Form (shown on day tap): amount, category dropdown (hardcoded options + "Other" with free text), note text field.
-- Monthly summary: total spent (expenses only — goal is to reduce spending, not budget tracking).
-- Future: 0-spend days earn points for a shop/reward system. Keep data model compatible.
-
 ## Transaction Data Model
 ```js
 {
@@ -80,8 +88,22 @@ Feature-based structure: all code for a feature lives together. Shared things go
   note: string
 }
 ```
-Date as YYYY-MM-DD string: sortable, comparable, works as object key.
-Amount always positive: type field communicates direction.
+
+## Sleep Data Model
+```js
+{ id, date, hours, minutes }
+// date = YYYY-MM-DD (wake-up date)
+```
+Sleep scoring: bell curve centered at 8h15m (10 pts), tapers to 3 pts at 7h30m or 9h00m, 0 pts outside that range. `calcSleepPoints(hours, minutes)` exported from `sleepModel.js`.
+
+## Habits Data Model
+```js
+{ id, text, type, completedOn, isTemplate }
+// type: 'daily' | 'weekly' | 'monthly'
+// completedOn: YYYY-MM-DD of last completion (null if not done this period)
+// isTemplate: true for goals set via monthly template modal
+```
+Daily completion history stored separately in `habitsHistory` AsyncStorage key as `string[]` of YYYY-MM-DD dates (when ALL daily goals were completed).
 
 ## Coding Style Rules
 - Always `export const` arrow functions — not `export function`.
@@ -116,110 +138,44 @@ Amount always positive: type field communicates direction.
 - `TextInput` — controlled inputs with `value` and `onChangeText`
 - `scale()` and `vScale()` — responsive sizing based on screen dimensions
 - Ionicons — `name`, `color`, `size` props (color/size are NOT in style)
-- `react-native-svg` — `<Svg>`, `<Line>`, `<Circle>`, `<Polyline>`, `<Text as SvgText>` for drawing graphs
+- `react-native-svg` — `<Svg>`, `<Rect>`, `<Line>`, `<Circle>`, `<Polyline>`, `<Text as SvgText>` for drawing graphs and charts
 - SVG coordinate math — map data values to pixel positions using canvas width/height and axis ranges
 - `useWindowDimensions` — get screen width/height reactively for responsive SVG sizing
 - Module-level constants (e.g. `const TODAY = new Date()`) — stable across re-renders, unlike variables inside components
 - `Alert.alert` — native confirmation dialog with action buttons
 - `|| 0` fallback — `parseInt('') || 0` safely handles empty numeric inputs
+- `Animated` API — `Animated.Value`, `Animated.timing`, `Animated.sequence`, `Animated.delay` for flash banners
+- `useRef` for `Animated.Value` — keeps animation value stable across re-renders
+- `justifyContent: 'flex-end'` on a fixed-height container — pushes child to bottom (used for pillar fill effect)
 
 ## Current Status
 
-### Done
-- Money module complete — calendar, transaction logging, edit/delete, monthly total.
-- Export as TXT — shares monthly transactions grouped by day via native share sheet. Includes note if present.
-- APK built and installed on phone via EAS (production profile, Android APK).
-- OTA updates configured — `expo-updates` installed, `app.json` has updates URL + runtimeVersion, `eas.json` production profile has `channel: "production"`. Future JS changes deploy with `eas update --branch production --message "..."`, no reinstall needed.
-- Modal fixes: income/expense color in day list, amount shown before category, keyboard avoiding view added.
-- Native module rebuild done: `expo-document-picker` + `expo-file-system` installed, APK rebuilt via EAS, import JSON working.
-- Bug fix: `getTotalSpent` in `calculations.js` was summing all months — filter now correctly checks month and year from the date string.
-- Save confirmation: save button flashes green (✓) on both money and sleep after logging.
-- Sleep module complete — day stepper input (capped at today, defaults to today or day 1 for past months), line graph with grid + axis labels, month navigation, duplicate prevention (same date overwrites), clear sleep data button with confirmation alert.
-- `react-native-svg` added — required APK rebuild via EAS.
+### All modules complete and live on device via OTA
 
-### Done (continued)
-- Habits module complete — daily/weekly/monthly goal sections, free text input, checkbox toggle (teal = done, strikethrough), delete, progress count per section (e.g. 3/5), resets automatically per period.
-- Store module complete — wishlist with 5-day cooldown, buy costs 50 pts (confirmation alert), delete anytime, shows added date + days remaining.
-- Gym tab replaced with Store tab.
-- Points system (`src/shared/usePoints.js`) — shared hook across all modules:
-  - Earn: complete all goals in a section (daily +10, weekly +25, monthly +50), log sleep (+5 flat), 0-spend days (+15, scanned retroactively on MoneyScreen load).
-  - Streaks: consecutive full completions grow multiplier (daily +0.1x/day cap 2x, weekly +0.25x/week cap 2x, monthly +0.5x/month cap 3x, spend streak +0.1x/day cap 2x). Multipliers expire 2 days after last completion, stack additively.
-  - Penalties: checked daily on HabitsScreen mount. Miss a period → lose pts (daily -5, weekly -15, monthly -30), streak resets. 3 consecutive misses any section → 24h store lockout.
-  - Balance + active multiplier shown at top of Store screen. Lockout shown as red banner.
-- Sleep auto-advance: after saving, day stepper moves to next day automatically.
-- useSleep.js fixed: was `export default useSleep = () =>` (invalid), now `const useSleep` + `export default useSleep`.
+**Money** — calendar view, transaction logging (expense/income), edit/delete, monthly total, spending bar chart (per-day bars for current month). Export as TXT, import JSON. MoneyScreen uses ScrollView.
 
-### In Progress
-- Future money improvements: layout polish, spending charts.
-- Stats screen (BitLife-style pillar bars) — after gym module is added.
+**Sleep** — day stepper input, line graph per month, bell-curve scoring (8h15m = 10 pts), duplicate-safe (overwrite same date, no double points), out-of-range notification, clear data.
 
-### Done (continued x2)
-- Store rewards complete — 9 permanent rewards (Iron Will 60, Point Boost 75, Video Game Session 100, Streak Shield 120, Cheat Day 130, Focus 150, Multiplier Freeze 200, Penalty Erase 220, Last Stand 280). 2-day cooldown between purchases. Active rewards show teal border + Active badge.
-- Point Boost and Focus tracked inside usePoints data. All penalty-affecting rewards (Iron Will, Streak Shield, Cheat Day, Penalty Erase, Last Stand, Multiplier Freeze) tracked in useRewards, consumed in checkPenalties.
-- Monthly habit template — first open of each new month shows a bottom-sheet modal to set fixed daily goals for the month. Template goals have teal left border. Regular goals look plain. Skip option available.
-- Sleep scoring curve — bell curve centered at 8h15m (10 pts), tapers to 3 pts at 7h30m or 9h00m, 0 pts outside that range. Replaces flat +5.
-- Notifications complete — 10 notifications wired up:
-  - Fixed daily: 10am sleep reminder, 9:30pm habits check-in, 8pm no-spend reminder
-  - Fixed weekly: Monday 9am weekly goals reminder
-  - Fixed monthly: 1st of month 9am (one-off, rescheduled each app open)
-  - Triggered: sleep out of range (after saving), missed habits 8am next day (scheduled/cancelled in HabitsScreen), streak milestone at 7/14/30 days, balance crosses reward cost threshold, store lockout warning at 2 consecutive misses
-  - expo-notifications installed, app.json plugin added, requires new EAS build
-- EAS build complete — new APK installed, expo-notifications native module active.
-- Bug fixes shipped via OTA:
-  - checkPenalties timing: useRewards now exposes `rewardsLoaded` flag; HabitsScreen waits for it before running penalty check
-  - Template skip: no longer saves habitTemplateMonth; modal re-shows on next open if no template goals exist
-  - Sleep duplicate points: addSleep returns bool (new vs overwrite); earnSleep only called on new entries
-- QoL shipped via OTA:
-  - Store screen: Rewards and Wishlist sections are collapsible (chevron toggle, both open by default)
-  - Template confirmation: teal "Daily goals added" flash banner after completing setup
+**Habits** — daily/weekly/monthly goal sections, checkbox toggle, delete, progress count. Monthly template modal (first open of new month, re-shows if no template goals after skip). 4-week daily completion dot grid (HabitsHistory). Penalty system checked on mount (with rewards-load timing guard).
 
-### Testing Checklist (after new APK installed)
-- **Notifications**: grant permission on first open → check that 10am/9:30pm/8pm notifications arrive on schedule
-- **Sleep curve**: log 8h15m → max points (~10). Log 7h → 0 pts. Log 7h30m → ~3 pts.
-- **Sleep out of range**: log 6h sleep → immediate notification fires
-- **Rewards**: buy Iron Will (60 pts) → Active badge appears on card, teal border shows → 2-day cooldown blocks next purchase
-- **Focus reward**: buy Focus → section picker alert → 7 days of 2x points for chosen section
-- **Monthly template**: clear habitTemplateMonth from storage or wait for May 1st → modal appears on HabitsScreen open → add template goals → they appear with teal left border
-- **Streak milestone**: get a 7-day daily streak → notification fires
-- **Lockout warning**: miss daily goals 2 days in a row → notification fires on 2nd miss
-- **Balance threshold**: earn points past 60 → notification says "You can afford Iron Will"
+**Store** — 9 permanent rewards with 2-day cooldown, wishlist with 5-day unlock + 50pt buy. Sections collapsible. Lockout banner on 3+ consecutive misses.
 
-## Sleep Module Plan
+**Points** (`usePoints.js`) — earn via section completion, sleep, 0-spend days. Streak multipliers per section. Penalties for missed periods. Balance threshold notifications. All reward interactions (Iron Will, Streak Shield, Cheat Day, Penalty Erase, Last Stand, Multiplier Freeze, Point Boost, Focus) wired up.
 
-### Goal
-Manual sleep tracking — input hours/minutes slept each morning, view as a line graph per month.
+**Stats** — BitLife-style vertical pillar bars for Sleep / Habits / Money / Points. Color-coded: teal ≥66%, amber 33–65%, red <33%. Current month only. Legend explains each metric.
 
-### Data Model
-```js
-{ id, date, hours, minutes }
-// date = YYYY-MM-DD (wake-up date)
-// example: slept 31.3, woke 1.4 → date is 2026-04-01
-```
+**Notifications** — 10 wired up (3 fixed daily, 1 weekly, 1 monthly, 5 triggered). `expo-notifications` native module — requires EAS build (done).
 
-### Screen Layout (top to bottom)
-1. Month navigation (same as money)
-2. Input — hours + minutes, submit button
-3. Line graph — grid + dots + connecting lines
+### Deployment
+- APK installed via EAS (production profile). OTA updates via `eas update --branch production --message "..."`.
+- `rewardsLoaded` flag in `useRewards` — `checkPenalties` waits for this before running.
+- `addSleep` returns bool (new vs overwrite) — `earnSleep` only fires on new entries.
+- Template skip no longer saves `habitTemplateMonth` — modal re-appears if no template goals exist.
+- `calcSleepPoints` exported from `sleepModel.js` (used by both `usePoints` and `StatsScreen`).
+- `dailyLog` in `useHabits` — stored in `habitsHistory` key, populated going forward (no retroactive data).
 
-### Graph Design
-- Grid background (graph paper style) — vertical lines per day, horizontal lines per hour
-- Y-axis: 4h (top) to 10h (bottom) — inverted, less sleep = higher = worse. Fixed range.
-- X-axis: days 1–31 of selected month
-- Dots per logged day, connected by lines
-- Auto-updates on new entry
-
-### Folder Structure
-```
-src/features/sleep/
-  SleepScreen.js
-  components/
-    SleepInput.js
-    SleepGraph.js
-  hooks/
-    useSleep.js
-  utils/
-    sleepModel.js
-```
-
-### Dependencies
-- `react-native-svg` — for drawing the graph (lines, circles, grid)
+### No planned features remaining
+- Gym module deferred indefinitely.
+- Stats screen done.
+- Spending chart done.
+- Habits history done.
