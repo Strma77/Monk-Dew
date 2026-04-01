@@ -1,9 +1,10 @@
-export const createGoal = (text, type) => {
+export const createGoal = (text, type, isTemplate = false) => {
     return {
         id: Date.now().toString(),
         text,
         type,
-        completedOn: null
+        completedOn: null,
+        isTemplate,
     }
 };
 

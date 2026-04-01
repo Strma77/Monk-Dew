@@ -15,10 +15,24 @@ const DEFAULT_DATA = {
     consecutiveMisses: { daily: 0, weekly: 0, monthly: 0 },
     lastPenaltyCheck: null,
     awardedSpendDays: [],
+    pointBoostUntil: null,
+    focusSection: null,
+    focusUntil: null,
 };
 
-const BASE_POINTS = { daily: 10, weekly: 25, monthly: 50, sleep: 5, spend: 15 };
+const BASE_POINTS = { daily: 10, weekly: 25, monthly: 50, spend: 15 };
 const MISS_PENALTY = { daily: 5, weekly: 15, monthly: 30 };
+
+// Sleep curve: bell curve centered at 8h15m, range 7h30m–9h00m, 3–10 pts
+const SLEEP_TARGET_MINS = 8 * 60 + 15;
+const SLEEP_RANGE_MINS  = 45;
+
+const calcSleepPoints = (hours, minutes) => {
+    const total = hours * 60 + minutes;
+    const dist  = Math.abs(total - SLEEP_TARGET_MINS);
+    if (dist > SLEEP_RANGE_MINS) return 0;
+    return Math.round(3 + 7 * (1 - dist / SLEEP_RANGE_MINS));
+};
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 
@@ -74,7 +88,7 @@ const usePoints = () => {
 
     useEffect(() => {
         AsyncStorage.getItem(STORAGE_KEY).then(stored => {
-            if (stored) setData(JSON.parse(stored));
+            if (stored) setData({ ...DEFAULT_DATA, ...JSON.parse(stored) });
         });
     }, []);
 
@@ -86,13 +100,20 @@ const usePoints = () => {
         });
     };
 
+    const isBoostActive = (current) =>
+        current.pointBoostUntil != null && Date.now() < current.pointBoostUntil;
+
+    const isFocusActive = (current, type) =>
+        current.focusSection === type &&
+        current.focusUntil != null &&
+        Date.now() < current.focusUntil;
+
     // Call when all goals in a section are completed
     const earnSection = (type) => {
         update(current => {
             const streak = current.streaks[type];
             const today = todayStr();
 
-            // Don't award twice in the same period
             if (streak.lastFullCompletion === today) return current;
 
             let isConsecutive = false;
@@ -109,7 +130,10 @@ const usePoints = () => {
             };
 
             const multiplier = calcMultiplier(updatedStreaks);
-            const earned = Math.floor(BASE_POINTS[type] * multiplier);
+            let earned = Math.floor(BASE_POINTS[type] * multiplier);
+
+            if (isFocusActive(current, type)) earned *= 2;
+            if (isBoostActive(current)) earned *= 2;
 
             return {
                 ...current,
@@ -120,12 +144,14 @@ const usePoints = () => {
         });
     };
 
-    // Call when a sleep entry is logged
-    const earnSleep = () => {
-        update(current => ({
-            ...current,
-            balance: current.balance + BASE_POINTS.sleep,
-        }));
+    // Call when a sleep entry is logged — uses bell curve, not flat points
+    const earnSleep = (hours, minutes) => {
+        update(current => {
+            let pts = calcSleepPoints(hours, minutes);
+            if (pts <= 0) return current;
+            if (isBoostActive(current)) pts *= 2;
+            return { ...current, balance: current.balance + pts };
+        });
     };
 
     // Call from MoneyScreen when transactions change — scans past 30 days for 0-spend
@@ -145,14 +171,15 @@ const usePoints = () => {
                 const hasExpense = transactions.some(t => t.date === dateStr && t.type === 'expense');
                 if (!hasExpense) {
                     awarded.add(dateStr);
-                    balance += BASE_POINTS.spend;
+                    let pts = BASE_POINTS.spend;
+                    if (isBoostActive(current)) pts *= 2;
+                    balance += pts;
                     changed = true;
                 }
             }
 
             if (!changed) return current;
 
-            // Recompute spend streak: consecutive days from yesterday back
             let spendCount = 0;
             for (let i = 1; ; i++) {
                 const d = new Date();
@@ -186,30 +213,98 @@ const usePoints = () => {
         }));
     };
 
+    // Activate Point Boost — called from StoreScreen on purchase
+    const activatePointBoost = () => {
+        update(current => ({
+            ...current,
+            pointBoostUntil: Date.now() + 24 * 60 * 60 * 1000,
+        }));
+    };
+
+    // Activate Focus — called from StoreScreen on purchase
+    const activateFocus = (section) => {
+        update(current => ({
+            ...current,
+            focusSection: section,
+            focusUntil: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        }));
+    };
+
     // Call from HabitsScreen on mount — checks previous periods for missed goals
-    const checkPenalties = (goals) => {
+    // activeRewards and consumeReward come from useRewards (HabitsScreen has both)
+    const checkPenalties = (goals, activeRewards, consumeReward) => {
         update(current => {
             const today = todayStr();
             if (current.lastPenaltyCheck === today) return current;
-
-            // First ever open — just record date, no penalty
-            if (!current.lastPenaltyCheck) {
-                return { ...current, lastPenaltyCheck: today };
-            }
+            if (!current.lastPenaltyCheck) return { ...current, lastPenaltyCheck: today };
 
             let balance = current.balance;
             let consecutiveMisses = { ...current.consecutiveMisses };
             let lockoutUntil = current.lockoutUntil;
             const streaks = { ...current.streaks };
+            const now = Date.now();
+
+            const rewardActive = (type) =>
+                activeRewards && activeRewards.some(
+                    r => r.type === type && (r.expiresAt === null || r.expiresAt > now)
+                );
+
+            // Multiplier Freeze: extend streak expiries so they don't decay today
+            if (rewardActive('multiplierFreeze')) {
+                const ext = addDays(today, 2);
+                for (const key of ['daily', 'weekly', 'monthly', 'spend']) {
+                    if (streaks[key].count > 0) {
+                        streaks[key] = { ...streaks[key], expiry: ext };
+                    }
+                }
+            }
+
+            // Cheat Day: skip ALL penalty checks, consume the reward
+            if (rewardActive('cheatDay')) {
+                if (consumeReward) consumeReward('cheatDay');
+                return { ...current, streaks, lastPenaltyCheck: today };
+            }
+
+            const hasIronWill     = rewardActive('ironWill');
+            const hasPenaltyErase = rewardActive('penaltyErase');
+            const hasStreakShield = rewardActive('streakShield');
+            const hasLastStand    = rewardActive('lastStand');
+
+            let penaltyEraseUsed  = false;
+            let streakShieldUsed  = false;
 
             const applyMiss = (type) => {
-                balance = Math.max(0, balance - MISS_PENALTY[type]);
+                // Penalty Erase: block this one penalty
+                if (hasPenaltyErase && !penaltyEraseUsed) {
+                    penaltyEraseUsed = true;
+                    if (consumeReward) consumeReward('penaltyErase');
+                    consecutiveMisses[type]++;
+                    return;
+                }
+
+                let penalty = MISS_PENALTY[type];
+                if (hasIronWill) penalty = Math.ceil(penalty / 2);
+                balance = Math.max(0, balance - penalty);
                 consecutiveMisses[type]++;
-                streaks[type] = { ...streaks[type], count: 0, expiry: null };
+
+                // Streak Shield: protect streak from reset (one streak, one use)
+                if (hasStreakShield && !streakShieldUsed) {
+                    streakShieldUsed = true;
+                    if (consumeReward) consumeReward('streakShield');
+                } else {
+                    streaks[type] = { ...streaks[type], count: 0, expiry: null };
+                }
+
                 if (consecutiveMisses[type] >= 3) {
-                    const lockout = new Date();
-                    lockout.setDate(lockout.getDate() + 1);
-                    lockoutUntil = lockout.toISOString();
+                    // Last Stand: block the lockout
+                    if (hasLastStand) {
+                        if (consumeReward) consumeReward('lastStand');
+                        consecutiveMisses[type] = 2;
+                    } else {
+                        const lockout = new Date();
+                        lockout.setDate(lockout.getDate() + 1);
+                        lockoutUntil = lockout.toISOString();
+                    }
                 }
             };
 
@@ -258,10 +353,14 @@ const usePoints = () => {
         multiplier: calcMultiplier(data.streaks),
         isLockedOut,
         lockoutUntil: data.lockoutUntil,
+        isPointBoostActive: isBoostActive(data),
+        activeFocusSection: data.focusSection && data.focusUntil && Date.now() < data.focusUntil ? data.focusSection : null,
         earnSection,
         earnSleep,
         checkSpendAwards,
         spendPoints,
+        activatePointBoost,
+        activateFocus,
         checkPenalties,
     };
 };

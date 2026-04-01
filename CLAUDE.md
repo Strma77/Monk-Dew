@@ -137,10 +137,32 @@ Amount always positive: type field communicates direction.
 - Sleep module complete — day stepper input (capped at today, defaults to today or day 1 for past months), line graph with grid + axis labels, month navigation, duplicate prevention (same date overwrites), clear sleep data button with confirmation alert.
 - `react-native-svg` added — required APK rebuild via EAS.
 
+### Done (continued)
+- Habits module complete — daily/weekly/monthly goal sections, free text input, checkbox toggle (teal = done, strikethrough), delete, progress count per section (e.g. 3/5), resets automatically per period.
+- Store module complete — wishlist with 5-day cooldown, buy costs 50 pts (confirmation alert), delete anytime, shows added date + days remaining.
+- Gym tab replaced with Store tab.
+- Points system (`src/shared/usePoints.js`) — shared hook across all modules:
+  - Earn: complete all goals in a section (daily +10, weekly +25, monthly +50), log sleep (+5 flat), 0-spend days (+15, scanned retroactively on MoneyScreen load).
+  - Streaks: consecutive full completions grow multiplier (daily +0.1x/day cap 2x, weekly +0.25x/week cap 2x, monthly +0.5x/month cap 3x, spend streak +0.1x/day cap 2x). Multipliers expire 2 days after last completion, stack additively.
+  - Penalties: checked daily on HabitsScreen mount. Miss a period → lose pts (daily -5, weekly -15, monthly -30), streak resets. 3 consecutive misses any section → 24h store lockout.
+  - Balance + active multiplier shown at top of Store screen. Lockout shown as red banner.
+- Sleep auto-advance: after saving, day stepper moves to next day automatically.
+- useSleep.js fixed: was `export default useSleep = () =>` (invalid), now `const useSleep` + `export default useSleep`.
+
 ### In Progress
-- Pick next module: habits or gym.
-- Future money improvements: layout polish, spending charts, 0-spend points system.
-- Future cross-module: points/shop system connecting money (0-spend days) and sleep.
+- Notifications (10am daily sleep reminder) — deferred, needs expo-notifications.
+- Store rewards section (cheat day, streak shield, skip pass, custom reward) — TBD, not built yet.
+- Points penalty for habits: punishment decision = -pts (done) + 3-miss store lockout (done). Penalty for weekly checked only on Monday, monthly only on 1st.
+- Future money improvements: layout polish, spending charts.
+
+### Testing Checklist (after next EAS update)
+- **Habits**: add goals in all 3 sections → check them off → progress counter updates → completing full section should earn points (check Store balance)
+- **Habits penalty**: set lastPenaltyCheck to yesterday via storage if you want to force-test (or just wait a day)
+- **Store**: add item → shows "Added [date] · 5 days left" → buy button only appears after 5 days → buy costs 50 pts → lockout banner appears after 3 missed days
+- **Store balance**: top of Store shows current points + multiplier badge (only shows if multiplier > 1x)
+- **Sleep**: log entry → balance in Store should go up by 5
+- **Money**: days with no expense transactions in past 30 days → should auto-award 15 pts each on MoneyScreen open
+- **Sleep auto-advance**: save entry for day 22 → stepper jumps to 23
 
 ## Sleep Module Plan
 

@@ -3,13 +3,17 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, StyleSheet 
 import { colors, spacing, fontSize, radius } from '../../shared/theme';
 import useStore from './hooks/useStore';
 import usePoints from '../../shared/usePoints';
+import useRewards from './hooks/useRewards';
 import WishlistItem from './components/WishlistItem';
+import RewardItem from './components/RewardItem';
+import { REWARDS } from './utils/rewardsConfig';
 
 const ITEM_COST = 50;
 
 const StoreScreen = () => {
     const { items, addItem, buyItem, deleteItem } = useStore();
-    const { balance, multiplier, isLockedOut, spendPoints } = usePoints();
+    const { balance, multiplier, isLockedOut, spendPoints, isPointBoostActive, activeFocusSection, activatePointBoost, activateFocus } = usePoints();
+    const { canPurchaseNow, cooldownHoursLeft, purchaseReward, isActive } = useRewards();
     const [text, setText] = useState('');
 
     const handleAdd = () => {
@@ -33,6 +37,57 @@ const StoreScreen = () => {
         ]);
     };
 
+    const handleRewardBuy = (reward) => {
+        if (isLockedOut) {
+            Alert.alert('Store locked', 'You missed 3+ days in a row. Store unlocks in 24h.');
+            return;
+        }
+        if (!canPurchaseNow()) {
+            Alert.alert('Cooldown', `Wait ${cooldownHoursLeft()}h before your next reward purchase.`);
+            return;
+        }
+        if (balance < reward.cost) {
+            Alert.alert('Not enough points', `You need ${reward.cost} pts. You have ${balance}.`);
+            return;
+        }
+        if (reward.type === 'focus') {
+            Alert.alert('Focus — choose a section', 'Which section to boost for 7 days?', [
+                { text: 'Daily',   onPress: () => confirmRewardBuy(reward, 'daily') },
+                { text: 'Weekly',  onPress: () => confirmRewardBuy(reward, 'weekly') },
+                { text: 'Monthly', onPress: () => confirmRewardBuy(reward, 'monthly') },
+                { text: 'Cancel',  style: 'cancel' },
+            ]);
+            return;
+        }
+        confirmRewardBuy(reward, null);
+    };
+
+    const confirmRewardBuy = (reward, focusSection) => {
+        Alert.alert('Confirm', `Buy ${reward.name} for ${reward.cost} pts?`, [
+            { text: 'Cancel', style: 'cancel' },
+            {
+                text: 'Buy',
+                onPress: () => {
+                    spendPoints(reward.cost);
+                    if (reward.type === 'pointBoost') {
+                        activatePointBoost();
+                    } else if (reward.type === 'focus') {
+                        activateFocus(focusSection);
+                        purchaseReward(reward.type, { section: focusSection });
+                    } else {
+                        purchaseReward(reward.type);
+                    }
+                },
+            },
+        ]);
+    };
+
+    const getIsActive = (type) => {
+        if (type === 'pointBoost') return isPointBoostActive;
+        if (type === 'focus') return activeFocusSection != null;
+        return isActive(type);
+    };
+
     return (
         <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
             <View style={styles.balanceRow}>
@@ -53,7 +108,22 @@ const StoreScreen = () => {
                 </View>
             )}
 
-            <Text style={styles.heading}>Wishlist</Text>
+            <Text style={styles.heading}>Rewards</Text>
+            <Text style={styles.subtext}>Permanent shop. 2-day cooldown between purchases.</Text>
+            {!canPurchaseNow() && (
+                <Text style={styles.cooldownText}>{cooldownHoursLeft()}h until next purchase</Text>
+            )}
+            {REWARDS.map(reward => (
+                <RewardItem
+                    key={reward.type}
+                    reward={reward}
+                    isActive={getIsActive(reward.type)}
+                    canBuy={canPurchaseNow() && balance >= reward.cost && !isLockedOut}
+                    onBuy={() => handleRewardBuy(reward)}
+                />
+            ))}
+
+            <Text style={[styles.heading, styles.wishlistHeading]}>Wishlist</Text>
             <Text style={styles.subtext}>Items unlock after 5 days. Buy costs {ITEM_COST} pts = permission to buy IRL.</Text>
 
             <View style={styles.inputRow}>
@@ -139,10 +209,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: spacing.xs,
     },
+    wishlistHeading: {
+        marginTop: spacing.xl,
+    },
     subtext: {
         color: colors.textSecondary,
         fontSize: fontSize.sm,
-        marginBottom: spacing.lg,
+        marginBottom: spacing.sm,
+    },
+    cooldownText: {
+        color: colors.expenseColor,
+        fontSize: fontSize.sm,
+        marginBottom: spacing.md,
     },
     inputRow: {
         flexDirection: 'row',

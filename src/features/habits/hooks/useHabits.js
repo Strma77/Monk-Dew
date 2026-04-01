@@ -2,13 +2,20 @@ import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createGoal, isCompletedThisPeriod } from "../utils/habitsModel";
 
+const currentMonthStr = () => new Date().toISOString().slice(0, 7); // YYYY-MM
+
 const useHabits = () => {
     const [goals, setGoals] = useState([]);
+    const [showTemplateSetup, setShowTemplateSetup] = useState(false);
 
     const loadData = async () => {
         const stored = await AsyncStorage.getItem('habits');
-        if (stored) {
-            setGoals(JSON.parse(stored));
+        const parsed = stored ? JSON.parse(stored) : [];
+        setGoals(parsed);
+
+        const lastMonth = await AsyncStorage.getItem('habitTemplateMonth');
+        if (lastMonth !== currentMonthStr()) {
+            setShowTemplateSetup(true);
         }
     };
 
@@ -37,7 +44,6 @@ const useHabits = () => {
             return { ...g, completedOn: wasCompleted ? null : today };
         });
 
-        // If just marked complete, check if whole section is done
         if (!wasCompleted && onSectionComplete) {
             const sectionDone = updated
                 .filter(g => g.type === goal.type)
@@ -55,7 +61,26 @@ const useHabits = () => {
         saveToStorage(updated);
     };
 
-    return { goals, addGoal, toggleGoal, deleteGoal };
+    // Called when user confirms template setup modal
+    const completeTemplateSetup = async (templateTexts) => {
+        // Remove old template goals, keep user-added ones
+        const nonTemplate = goals.filter(g => !g.isTemplate);
+        const newTemplates = templateTexts.map((text, i) =>
+            ({ ...createGoal(text, 'daily', true), id: (Date.now() + i).toString() })
+        );
+        const updated = [...nonTemplate, ...newTemplates];
+        setGoals(updated);
+        await saveToStorage(updated);
+        await AsyncStorage.setItem('habitTemplateMonth', currentMonthStr());
+        setShowTemplateSetup(false);
+    };
+
+    const skipTemplateSetup = async () => {
+        await AsyncStorage.setItem('habitTemplateMonth', currentMonthStr());
+        setShowTemplateSetup(false);
+    };
+
+    return { goals, addGoal, toggleGoal, deleteGoal, showTemplateSetup, completeTemplateSetup, skipTemplateSetup };
 };
 
 export default useHabits;

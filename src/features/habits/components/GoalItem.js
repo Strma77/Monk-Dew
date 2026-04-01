@@ -7,7 +7,7 @@ const GoalItem = ({ goal, onToggle, onDelete }) => {
     const completed = isCompletedThisPeriod(goal);
 
     return (
-        <View style={styles.row}>
+        <View style={[styles.row, goal.isTemplate && styles.templateRow]}>
             <TouchableOpacity onPress={() => onToggle(goal.id)}>
                 <Ionicons
                     name={completed ? 'checkmark-circle' : 'ellipse-outline'}
@@ -44,6 +44,10 @@ const styles = StyleSheet.create({
     textDone: {
         color: colors.textSecondary,
         textDecorationLine: 'line-through',
+    },
+    templateRow: {
+        borderLeftWidth: 3,
+        borderLeftColor: colors.primaryColor,
     },
 });
 

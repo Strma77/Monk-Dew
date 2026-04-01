@@ -15,7 +15,7 @@ const SleepScreen = () => {
 
   const handleSleepSubmit = (dateStr, hours, minutes) => {
     addSleep(dateStr, hours, minutes);
-    earnSleep();
+    earnSleep(hours, minutes);
   };
 
   const handleClear = () => {
