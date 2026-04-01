@@ -15,8 +15,8 @@ const SleepScreen = () => {
   const { earnSleep } = usePoints();
 
   const handleSleepSubmit = (dateStr, hours, minutes) => {
-    addSleep(dateStr, hours, minutes);
-    earnSleep(hours, minutes);
+    const isNew = addSleep(dateStr, hours, minutes);
+    if (isNew) earnSleep(hours, minutes);
     const totalMins = hours * 60 + minutes;
     if (totalMins < 450 || totalMins > 540) notifySleepOutOfRange();
   };

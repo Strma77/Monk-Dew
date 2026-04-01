@@ -30,6 +30,7 @@ const useSleep = () => {
             : [...sleep_entries, newSleep];
         setSleep(updatedSleep);
         saveToStorage(updatedSleep);
+        return !exists;
     };
     const deleteSleep = (id) => {
         const deletedSleep = sleep_entries.filter(t => t.id !== id);

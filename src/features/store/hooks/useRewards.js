@@ -11,15 +11,18 @@ const DEFAULT_DATA = {
 
 const useRewards = () => {
     const [data, setData] = useState(DEFAULT_DATA);
+    const [rewardsLoaded, setRewardsLoaded] = useState(false);
 
     useEffect(() => {
         AsyncStorage.getItem(STORAGE_KEY).then(stored => {
-            if (!stored) return;
-            const parsed = JSON.parse(stored);
-            const now = Date.now();
-            // Clean out expired time-based rewards on load
-            const active = parsed.active.filter(r => r.expiresAt === null || r.expiresAt > now);
-            setData({ ...parsed, active });
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                const now = Date.now();
+                // Clean out expired time-based rewards on load
+                const active = parsed.active.filter(r => r.expiresAt === null || r.expiresAt > now);
+                setData({ ...parsed, active });
+            }
+            setRewardsLoaded(true);
         });
     }, []);
 
@@ -74,6 +77,7 @@ const useRewards = () => {
     };
 
     return {
+        rewardsLoaded,
         activeRewards: data.active,
         canPurchaseNow,
         cooldownHoursLeft,

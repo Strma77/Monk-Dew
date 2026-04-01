@@ -150,19 +150,32 @@ Amount always positive: type field communicates direction.
 - useSleep.js fixed: was `export default useSleep = () =>` (invalid), now `const useSleep` + `export default useSleep`.
 
 ### In Progress
-- Notifications (10am daily sleep reminder) — deferred, needs expo-notifications.
-- Store rewards section (cheat day, streak shield, skip pass, custom reward) — TBD, not built yet.
-- Points penalty for habits: punishment decision = -pts (done) + 3-miss store lockout (done). Penalty for weekly checked only on Monday, monthly only on 1st.
 - Future money improvements: layout polish, spending charts.
+- Stats screen (BitLife-style pillar bars) — after gym module is added.
 
-### Testing Checklist (after next EAS update)
-- **Habits**: add goals in all 3 sections → check them off → progress counter updates → completing full section should earn points (check Store balance)
-- **Habits penalty**: set lastPenaltyCheck to yesterday via storage if you want to force-test (or just wait a day)
-- **Store**: add item → shows "Added [date] · 5 days left" → buy button only appears after 5 days → buy costs 50 pts → lockout banner appears after 3 missed days
-- **Store balance**: top of Store shows current points + multiplier badge (only shows if multiplier > 1x)
-- **Sleep**: log entry → balance in Store should go up by 5
-- **Money**: days with no expense transactions in past 30 days → should auto-award 15 pts each on MoneyScreen open
-- **Sleep auto-advance**: save entry for day 22 → stepper jumps to 23
+### Done (continued x2)
+- Store rewards complete — 9 permanent rewards (Iron Will 60, Point Boost 75, Video Game Session 100, Streak Shield 120, Cheat Day 130, Focus 150, Multiplier Freeze 200, Penalty Erase 220, Last Stand 280). 2-day cooldown between purchases. Active rewards show teal border + Active badge.
+- Point Boost and Focus tracked inside usePoints data. All penalty-affecting rewards (Iron Will, Streak Shield, Cheat Day, Penalty Erase, Last Stand, Multiplier Freeze) tracked in useRewards, consumed in checkPenalties.
+- Monthly habit template — first open of each new month shows a bottom-sheet modal to set fixed daily goals for the month. Template goals have teal left border. Regular goals look plain. Skip option available.
+- Sleep scoring curve — bell curve centered at 8h15m (10 pts), tapers to 3 pts at 7h30m or 9h00m, 0 pts outside that range. Replaces flat +5.
+- Notifications complete — 10 notifications wired up:
+  - Fixed daily: 10am sleep reminder, 9:30pm habits check-in, 8pm no-spend reminder
+  - Fixed weekly: Monday 9am weekly goals reminder
+  - Fixed monthly: 1st of month 9am (one-off, rescheduled each app open)
+  - Triggered: sleep out of range (after saving), missed habits 8am next day (scheduled/cancelled in HabitsScreen), streak milestone at 7/14/30 days, balance crosses reward cost threshold, store lockout warning at 2 consecutive misses
+  - expo-notifications installed, app.json plugin added, requires new EAS build
+- EAS build in progress (includes expo-notifications native module)
+
+### Testing Checklist (after new APK installed)
+- **Notifications**: grant permission on first open → check that 10am/9:30pm/8pm notifications arrive on schedule
+- **Sleep curve**: log 8h15m → max points (~10). Log 7h → 0 pts. Log 7h30m → ~3 pts.
+- **Sleep out of range**: log 6h sleep → immediate notification fires
+- **Rewards**: buy Iron Will (60 pts) → Active badge appears on card, teal border shows → 2-day cooldown blocks next purchase
+- **Focus reward**: buy Focus → section picker alert → 7 days of 2x points for chosen section
+- **Monthly template**: clear habitTemplateMonth from storage or wait for May 1st → modal appears on HabitsScreen open → add template goals → they appear with teal left border
+- **Streak milestone**: get a 7-day daily streak → notification fires
+- **Lockout warning**: miss daily goals 2 days in a row → notification fires on 2nd miss
+- **Balance threshold**: earn points past 60 → notification says "You can afford Iron Will"
 
 ## Sleep Module Plan
 

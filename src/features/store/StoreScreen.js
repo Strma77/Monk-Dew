@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing, fontSize, radius } from '../../shared/theme';
 import useStore from './hooks/useStore';
 import usePoints from '../../shared/usePoints';
@@ -15,6 +16,8 @@ const StoreScreen = () => {
     const { balance, multiplier, isLockedOut, spendPoints, isPointBoostActive, activeFocusSection, activatePointBoost, activateFocus } = usePoints();
     const { canPurchaseNow, cooldownHoursLeft, purchaseReward, isActive } = useRewards();
     const [text, setText] = useState('');
+    const [rewardsOpen, setRewardsOpen] = useState(true);
+    const [wishlistOpen, setWishlistOpen] = useState(true);
 
     const handleAdd = () => {
         if (!text.trim()) return;
@@ -108,47 +111,59 @@ const StoreScreen = () => {
                 </View>
             )}
 
-            <Text style={styles.heading}>Rewards</Text>
-            <Text style={styles.subtext}>Permanent shop. 2-day cooldown between purchases.</Text>
-            {!canPurchaseNow() && (
-                <Text style={styles.cooldownText}>{cooldownHoursLeft()}h until next purchase</Text>
+            <TouchableOpacity style={styles.sectionHeader} onPress={() => setRewardsOpen(o => !o)}>
+                <Text style={styles.heading}>Rewards</Text>
+                <Ionicons name={rewardsOpen ? 'chevron-up' : 'chevron-down'} size={18} color={colors.textSecondary} />
+            </TouchableOpacity>
+            {rewardsOpen && (
+                <>
+                    <Text style={styles.subtext}>Permanent shop. 2-day cooldown between purchases.</Text>
+                    {!canPurchaseNow() && (
+                        <Text style={styles.cooldownText}>{cooldownHoursLeft()}h until next purchase</Text>
+                    )}
+                    {REWARDS.map(reward => (
+                        <RewardItem
+                            key={reward.type}
+                            reward={reward}
+                            isActive={getIsActive(reward.type)}
+                            canBuy={canPurchaseNow() && balance >= reward.cost && !isLockedOut}
+                            onBuy={() => handleRewardBuy(reward)}
+                        />
+                    ))}
+                </>
             )}
-            {REWARDS.map(reward => (
-                <RewardItem
-                    key={reward.type}
-                    reward={reward}
-                    isActive={getIsActive(reward.type)}
-                    canBuy={canPurchaseNow() && balance >= reward.cost && !isLockedOut}
-                    onBuy={() => handleRewardBuy(reward)}
-                />
-            ))}
 
-            <Text style={[styles.heading, styles.wishlistHeading]}>Wishlist</Text>
-            <Text style={styles.subtext}>Items unlock after 5 days. Buy costs {ITEM_COST} pts = permission to buy IRL.</Text>
-
-            <View style={styles.inputRow}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Add an item..."
-                    placeholderTextColor={colors.textSecondary}
-                    value={text}
-                    onChangeText={setText}
-                />
-                <TouchableOpacity style={styles.addButton} onPress={handleAdd}>
-                    <Text style={styles.addButtonText}>+</Text>
-                </TouchableOpacity>
-            </View>
-
-            {items.map(item => (
-                <WishlistItem
-                    key={item.id}
-                    item={item}
-                    onBuy={handleBuy}
-                    onDelete={deleteItem}
-                />
-            ))}
-            {items.length === 0 && (
-                <Text style={styles.empty}>No items in wishlist.</Text>
+            <TouchableOpacity style={[styles.sectionHeader, styles.wishlistHeader]} onPress={() => setWishlistOpen(o => !o)}>
+                <Text style={styles.heading}>Wishlist</Text>
+                <Ionicons name={wishlistOpen ? 'chevron-up' : 'chevron-down'} size={18} color={colors.textSecondary} />
+            </TouchableOpacity>
+            {wishlistOpen && (
+                <>
+                    <Text style={styles.subtext}>Items unlock after 5 days. Buy costs {ITEM_COST} pts = permission to buy IRL.</Text>
+                    <View style={styles.inputRow}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Add an item..."
+                            placeholderTextColor={colors.textSecondary}
+                            value={text}
+                            onChangeText={setText}
+                        />
+                        <TouchableOpacity style={styles.addButton} onPress={handleAdd}>
+                            <Text style={styles.addButtonText}>+</Text>
+                        </TouchableOpacity>
+                    </View>
+                    {items.map(item => (
+                        <WishlistItem
+                            key={item.id}
+                            item={item}
+                            onBuy={handleBuy}
+                            onDelete={deleteItem}
+                        />
+                    ))}
+                    {items.length === 0 && (
+                        <Text style={styles.empty}>No items in wishlist.</Text>
+                    )}
+                </>
             )}
         </ScrollView>
     );
@@ -203,14 +218,19 @@ const styles = StyleSheet.create({
         fontSize: fontSize.sm,
         textAlign: 'center',
     },
+    sectionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: spacing.xs,
+    },
+    wishlistHeader: {
+        marginTop: spacing.xl,
+    },
     heading: {
         color: colors.textPrimary,
         fontSize: fontSize.xl,
         fontWeight: 'bold',
-        marginBottom: spacing.xs,
-    },
-    wishlistHeading: {
-        marginTop: spacing.xl,
     },
     subtext: {
         color: colors.textSecondary,

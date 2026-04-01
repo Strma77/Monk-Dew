@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { View, Text, ScrollView, Modal, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import { View, Text, ScrollView, Modal, TextInput, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { colors, spacing, fontSize, radius } from '../../shared/theme';
 import useHabits from './hooks/useHabits';
 import usePoints from '../../shared/usePoints';
@@ -12,13 +12,14 @@ const MONTH_NAMES = ['January','February','March','April','May','June','July','A
 const HabitsScreen = () => {
     const { goals, addGoal, toggleGoal, deleteGoal, showTemplateSetup, completeTemplateSetup, skipTemplateSetup } = useHabits();
     const { checkPenalties, earnSection } = usePoints();
-    const { activeRewards, consumeReward } = useRewards();
+    const { rewardsLoaded, activeRewards, consumeReward } = useRewards();
 
     const [templateInput, setTemplateInput] = useState('');
     const [templateList, setTemplateList] = useState([]);
+    const templateFlash = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
-        if (goals.length === 0) return;
+        if (goals.length === 0 || !rewardsLoaded) return;
         checkPenalties(goals, activeRewards, consumeReward);
 
         // Schedule or cancel tomorrow's missed-habits warning based on yesterday's completion
@@ -29,7 +30,7 @@ const HabitsScreen = () => {
         const allDoneYesterday = dailyGoals.length === 0 || dailyGoals.every(g => g.completedOn === yesterdayStr);
         if (allDoneYesterday) cancelMissedHabitsWarning();
         else scheduleMissedHabitsWarning();
-    }, [goals]);
+    }, [goals, rewardsLoaded]);
 
     const handleTemplateAdd = () => {
         if (!templateInput.trim()) return;
@@ -45,6 +46,11 @@ const HabitsScreen = () => {
         completeTemplateSetup(templateList);
         setTemplateList([]);
         setTemplateInput('');
+        Animated.sequence([
+            Animated.timing(templateFlash, { toValue: 1, duration: 200, useNativeDriver: true }),
+            Animated.delay(1500),
+            Animated.timing(templateFlash, { toValue: 0, duration: 300, useNativeDriver: true }),
+        ]).start();
     };
 
     const handleTemplateSkip = () => {
@@ -57,6 +63,9 @@ const HabitsScreen = () => {
 
     return (
         <>
+            <Animated.View style={[styles.flashBanner, { opacity: templateFlash }]} pointerEvents="none">
+                <Text style={styles.flashText}>Daily goals added</Text>
+            </Animated.View>
             <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
                 <GoalSection
                     title="Daily Goals"
@@ -133,6 +142,21 @@ const HabitsScreen = () => {
 };
 
 const styles = StyleSheet.create({
+    flashBanner: {
+        position: 'absolute',
+        top: spacing.xl,
+        alignSelf: 'center',
+        backgroundColor: colors.primaryColor,
+        borderRadius: radius.md,
+        paddingVertical: spacing.sm,
+        paddingHorizontal: spacing.lg,
+        zIndex: 99,
+    },
+    flashText: {
+        color: colors.screenBackground,
+        fontSize: fontSize.sm,
+        fontWeight: 'bold',
+    },
     screen: {
         flex: 1,
         backgroundColor: colors.screenBackground,

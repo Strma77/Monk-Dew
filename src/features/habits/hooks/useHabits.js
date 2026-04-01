@@ -14,7 +14,8 @@ const useHabits = () => {
         setGoals(parsed);
 
         const lastMonth = await AsyncStorage.getItem('habitTemplateMonth');
-        if (lastMonth !== currentMonthStr()) {
+        const hasTemplateGoals = parsed.some(g => g.isTemplate);
+        if (lastMonth !== currentMonthStr() && !hasTemplateGoals) {
             setShowTemplateSetup(true);
         }
     };
@@ -75,8 +76,7 @@ const useHabits = () => {
         setShowTemplateSetup(false);
     };
 
-    const skipTemplateSetup = async () => {
-        await AsyncStorage.setItem('habitTemplateMonth', currentMonthStr());
+    const skipTemplateSetup = () => {
         setShowTemplateSetup(false);
     };
 
