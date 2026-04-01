@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors, spacing, fontSize } from "../../shared/theme";
 import useSleep from "./hooks/useSleep";
 import usePoints from "../../shared/usePoints";
+import { notifySleepOutOfRange } from "../../shared/notifications";
 import SleepInput from "./components/SleepInput";
 import SleepGraph from "./components/SleepGraph";
 
@@ -16,6 +17,8 @@ const SleepScreen = () => {
   const handleSleepSubmit = (dateStr, hours, minutes) => {
     addSleep(dateStr, hours, minutes);
     earnSleep(hours, minutes);
+    const totalMins = hours * 60 + minutes;
+    if (totalMins < 450 || totalMins > 540) notifySleepOutOfRange();
   };
 
   const handleClear = () => {

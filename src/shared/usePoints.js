@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { notifyStreakMilestone, notifyBalanceThreshold, notifyLockoutWarning } from './notifications';
 
 const STORAGE_KEY = 'points';
 
@@ -18,6 +19,31 @@ const DEFAULT_DATA = {
     pointBoostUntil: null,
     focusSection: null,
     focusUntil: null,
+    notifiedThresholds: [],
+};
+
+// Reward costs in order — used for balance threshold notifications
+const REWARD_THRESHOLDS = [
+    { cost: 60,  name: 'Iron Will' },
+    { cost: 75,  name: 'Point Boost' },
+    { cost: 100, name: 'Video Game Session' },
+    { cost: 120, name: 'Streak Shield' },
+    { cost: 130, name: 'Cheat Day' },
+    { cost: 150, name: 'Focus' },
+    { cost: 200, name: 'Multiplier Freeze' },
+    { cost: 220, name: 'Penalty Erase' },
+    { cost: 280, name: 'Last Stand' },
+];
+
+const checkAndNotifyThresholds = (oldBalance, newBalance, notifiedThresholds) => {
+    const updated = [...notifiedThresholds];
+    for (const { cost, name } of REWARD_THRESHOLDS) {
+        if (newBalance >= cost && oldBalance < cost && !updated.includes(cost)) {
+            updated.push(cost);
+            notifyBalanceThreshold(name, cost);
+        }
+    }
+    return updated;
 };
 
 const BASE_POINTS = { daily: 10, weekly: 25, monthly: 50, spend: 15 };
@@ -124,6 +150,8 @@ const usePoints = () => {
             const newCount = isConsecutive ? streak.count + 1 : 1;
             const expiry = addDays(today, 2);
 
+            if ([7, 14, 30].includes(newCount)) notifyStreakMilestone(type, newCount);
+
             const updatedStreaks = {
                 ...current.streaks,
                 [type]: { count: newCount, lastFullCompletion: today, expiry },
@@ -135,11 +163,17 @@ const usePoints = () => {
             if (isFocusActive(current, type)) earned *= 2;
             if (isBoostActive(current)) earned *= 2;
 
+            const newBalance = current.balance + earned;
+            const notifiedThresholds = checkAndNotifyThresholds(
+                current.balance, newBalance, current.notifiedThresholds || []
+            );
+
             return {
                 ...current,
-                balance: current.balance + earned,
+                balance: newBalance,
                 streaks: updatedStreaks,
                 consecutiveMisses: { ...current.consecutiveMisses, [type]: 0 },
+                notifiedThresholds,
             };
         });
     };
@@ -150,7 +184,11 @@ const usePoints = () => {
             let pts = calcSleepPoints(hours, minutes);
             if (pts <= 0) return current;
             if (isBoostActive(current)) pts *= 2;
-            return { ...current, balance: current.balance + pts };
+            const newBalance = current.balance + pts;
+            const notifiedThresholds = checkAndNotifyThresholds(
+                current.balance, newBalance, current.notifiedThresholds || []
+            );
+            return { ...current, balance: newBalance, notifiedThresholds };
         });
     };
 
@@ -180,6 +218,10 @@ const usePoints = () => {
 
             if (!changed) return current;
 
+            const notifiedThresholds = checkAndNotifyThresholds(
+                current.balance, balance, current.notifiedThresholds || []
+            );
+
             let spendCount = 0;
             for (let i = 1; ; i++) {
                 const d = new Date();
@@ -201,6 +243,7 @@ const usePoints = () => {
                     spend: { count: spendCount, expiry: spendExpiry },
                 },
                 awardedSpendDays: Array.from(awarded),
+                notifiedThresholds,
             };
         });
     };
@@ -286,6 +329,7 @@ const usePoints = () => {
                 if (hasIronWill) penalty = Math.ceil(penalty / 2);
                 balance = Math.max(0, balance - penalty);
                 consecutiveMisses[type]++;
+                if (consecutiveMisses[type] === 2) notifyLockoutWarning();
 
                 // Streak Shield: protect streak from reset (one streak, one use)
                 if (hasStreakShield && !streakShieldUsed) {

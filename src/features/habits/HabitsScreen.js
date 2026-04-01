@@ -5,6 +5,7 @@ import useHabits from './hooks/useHabits';
 import usePoints from '../../shared/usePoints';
 import useRewards from '../store/hooks/useRewards';
 import GoalSection from './components/GoalSection';
+import { scheduleMissedHabitsWarning, cancelMissedHabitsWarning } from '../../shared/notifications';
 
 const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
@@ -17,7 +18,17 @@ const HabitsScreen = () => {
     const [templateList, setTemplateList] = useState([]);
 
     useEffect(() => {
-        if (goals.length > 0) checkPenalties(goals, activeRewards, consumeReward);
+        if (goals.length === 0) return;
+        checkPenalties(goals, activeRewards, consumeReward);
+
+        // Schedule or cancel tomorrow's missed-habits warning based on yesterday's completion
+        const yest = new Date();
+        yest.setDate(yest.getDate() - 1);
+        const yesterdayStr = yest.toISOString().slice(0, 10);
+        const dailyGoals = goals.filter(g => g.type === 'daily');
+        const allDoneYesterday = dailyGoals.length === 0 || dailyGoals.every(g => g.completedOn === yesterdayStr);
+        if (allDoneYesterday) cancelMissedHabitsWarning();
+        else scheduleMissedHabitsWarning();
     }, [goals]);
 
     const handleTemplateAdd = () => {
