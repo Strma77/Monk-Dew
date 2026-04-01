@@ -164,7 +164,14 @@ Amount always positive: type field communicates direction.
   - Fixed monthly: 1st of month 9am (one-off, rescheduled each app open)
   - Triggered: sleep out of range (after saving), missed habits 8am next day (scheduled/cancelled in HabitsScreen), streak milestone at 7/14/30 days, balance crosses reward cost threshold, store lockout warning at 2 consecutive misses
   - expo-notifications installed, app.json plugin added, requires new EAS build
-- EAS build in progress (includes expo-notifications native module)
+- EAS build complete — new APK installed, expo-notifications native module active.
+- Bug fixes shipped via OTA:
+  - checkPenalties timing: useRewards now exposes `rewardsLoaded` flag; HabitsScreen waits for it before running penalty check
+  - Template skip: no longer saves habitTemplateMonth; modal re-shows on next open if no template goals exist
+  - Sleep duplicate points: addSleep returns bool (new vs overwrite); earnSleep only called on new entries
+- QoL shipped via OTA:
+  - Store screen: Rewards and Wishlist sections are collapsible (chevron toggle, both open by default)
+  - Template confirmation: teal "Daily goals added" flash banner after completing setup
 
 ### Testing Checklist (after new APK installed)
 - **Notifications**: grant permission on first open → check that 10am/9:30pm/8pm notifications arrive on schedule

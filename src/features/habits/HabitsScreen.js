@@ -5,12 +5,13 @@ import useHabits from './hooks/useHabits';
 import usePoints from '../../shared/usePoints';
 import useRewards from '../store/hooks/useRewards';
 import GoalSection from './components/GoalSection';
+import HabitsHistory from './components/HabitsHistory';
 import { scheduleMissedHabitsWarning, cancelMissedHabitsWarning } from '../../shared/notifications';
 
 const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 const HabitsScreen = () => {
-    const { goals, addGoal, toggleGoal, deleteGoal, showTemplateSetup, completeTemplateSetup, skipTemplateSetup } = useHabits();
+    const { goals, dailyLog, addGoal, toggleGoal, deleteGoal, showTemplateSetup, completeTemplateSetup, skipTemplateSetup } = useHabits();
     const { checkPenalties, earnSection } = usePoints();
     const { rewardsLoaded, activeRewards, consumeReward } = useRewards();
 
@@ -94,6 +95,7 @@ const HabitsScreen = () => {
                     onDelete={deleteGoal}
                     onSectionComplete={earnSection}
                 />
+                <HabitsHistory dailyLog={dailyLog} />
             </ScrollView>
 
             <Modal visible={showTemplateSetup} animationType="slide" transparent>

@@ -3,6 +3,7 @@ import MoneyScreen from "../features/money/MoneyScreen";
 import SleepScreen from "../features/sleep/SleepScreen";
 import StoreScreen from "../features/store/StoreScreen";
 import HabitsScreen from "../features/habits/HabitsScreen";
+import StatsScreen from "../features/stats/StatsScreen";
 import { colors, vScale, scale } from "../shared/theme";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -60,6 +61,15 @@ const AppNavigator = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="cart-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Stats"
+        component={StatsScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="bar-chart-outline" size={size} color={color} />
           ),
         }}
       />

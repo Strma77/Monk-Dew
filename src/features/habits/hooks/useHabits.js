@@ -7,11 +7,15 @@ const currentMonthStr = () => new Date().toISOString().slice(0, 7); // YYYY-MM
 const useHabits = () => {
     const [goals, setGoals] = useState([]);
     const [showTemplateSetup, setShowTemplateSetup] = useState(false);
+    const [dailyLog, setDailyLog] = useState([]);
 
     const loadData = async () => {
         const stored = await AsyncStorage.getItem('habits');
         const parsed = stored ? JSON.parse(stored) : [];
         setGoals(parsed);
+
+        const log = await AsyncStorage.getItem('habitsHistory');
+        setDailyLog(log ? JSON.parse(log) : []);
 
         const lastMonth = await AsyncStorage.getItem('habitTemplateMonth');
         const hasTemplateGoals = parsed.some(g => g.isTemplate);
@@ -45,11 +49,21 @@ const useHabits = () => {
             return { ...g, completedOn: wasCompleted ? null : today };
         });
 
-        if (!wasCompleted && onSectionComplete) {
+        if (!wasCompleted) {
             const sectionDone = updated
                 .filter(g => g.type === goal.type)
                 .every(g => isCompletedThisPeriod(g));
-            if (sectionDone) onSectionComplete(goal.type);
+            if (sectionDone) {
+                if (onSectionComplete) onSectionComplete(goal.type);
+                if (goal.type === 'daily') {
+                    setDailyLog(prev => {
+                        if (prev.includes(today)) return prev;
+                        const newLog = [...prev, today];
+                        AsyncStorage.setItem('habitsHistory', JSON.stringify(newLog));
+                        return newLog;
+                    });
+                }
+            }
         }
 
         setGoals(updated);
@@ -80,7 +94,7 @@ const useHabits = () => {
         setShowTemplateSetup(false);
     };
 
-    return { goals, addGoal, toggleGoal, deleteGoal, showTemplateSetup, completeTemplateSetup, skipTemplateSetup };
+    return { goals, dailyLog, addGoal, toggleGoal, deleteGoal, showTemplateSetup, completeTemplateSetup, skipTemplateSetup };
 };
 
 export default useHabits;

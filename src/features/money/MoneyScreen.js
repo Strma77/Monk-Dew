@@ -1,4 +1,4 @@
-import { View, StyleSheet, Share, TouchableOpacity, Text } from "react-native";
+import { View, ScrollView, StyleSheet, Share, TouchableOpacity, Text } from "react-native";
 import { useState, useEffect } from "react";
 import { colors, spacing } from "../../shared/theme";
 import { useTransactions } from "./hooks/useTransactions";
@@ -8,6 +8,7 @@ import { formatMonthExport } from "./utils/exportTransactions";
 import CalendarHeader from "./components/CalendarHeader";
 import CalendarGrid from "./components/CalendarGrid";
 import MonthlyTotal from "./components/MonthlyTotal";
+import SpendingChart from "./components/SpendingChart";
 import TransactionModal from "./components/TransactionModal";
 import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system/legacy'
@@ -70,7 +71,7 @@ const MoneyScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <CalendarHeader
         month={currentMonth}
         year={currentYear}
@@ -84,6 +85,7 @@ const MoneyScreen = () => {
         onDayPress={handleDayPress}
       />
       <MonthlyTotal total={totalSpent} />
+      <SpendingChart transactions={transactions} month={currentMonth} year={currentYear} />
       <TouchableOpacity style={styles.exportButton} onPress={handleExport}>
         <Text style={styles.exportText}>Export as TXT</Text>
       </TouchableOpacity>
@@ -105,7 +107,7 @@ const MoneyScreen = () => {
           setModalVisible(false);
         }}
       />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -113,6 +115,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.screenBackground,
+  },
+  content: {
     padding: spacing.md,
     paddingTop: spacing.xl,
   },
