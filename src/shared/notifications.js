@@ -119,18 +119,6 @@ export const notifyStreakMilestone = (type, count) => {
     });
 };
 
-// Fired when balance first crosses a reward's cost
-export const notifyBalanceThreshold = (rewardName, cost) => {
-    if (!isNative) return;
-    Notifications.scheduleNotificationAsync({
-        content: {
-            title: 'You can afford a reward',
-            body: `${rewardName} costs ${cost} pts. Head to the store.`,
-        },
-        trigger: null,
-    });
-};
-
 // Fired when consecutive misses hits 2 — one away from lockout
 export const notifyLockoutWarning = () => {
     if (!isNative) return;
