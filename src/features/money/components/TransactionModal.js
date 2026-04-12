@@ -21,6 +21,8 @@ const EXPENSE_CATEGORIES = [
   "Menza",
   "Pivo",
   "Fast Food",
+  "Fuel",
+  "Car things",
   "Other",
 ];
 const INCOME_CATEGORIES = ["Tata", "Mama", "Poker", "Prodao", "Other"];
