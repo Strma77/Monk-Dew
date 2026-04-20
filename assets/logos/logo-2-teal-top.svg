@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="650.2 0 381.27 430.4">
+  <defs>
+    <linearGradient id="a" x1="-588.69" y1="399.28" x2="-587.7" y2="5.75" gradientTransform="translate(351.63) rotate(-180) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset=".02" stop-color="#6acce1"/>
+      <stop offset=".08" stop-color="#5fb2c4"/>
+      <stop offset=".19" stop-color="#4f8b99"/>
+      <stop offset=".3" stop-color="#416a73"/>
+      <stop offset=".42" stop-color="#364e55"/>
+      <stop offset=".54" stop-color="#2d393d"/>
+      <stop offset=".67" stop-color="#272a2d"/>
+      <stop offset=".82" stop-color="#242123"/>
+      <stop offset="1" stop-color="#231f20"/>
+    </linearGradient>
+    <linearGradient id="b" x1="-522.16" y1="397.78" x2="-521.18" y2="11.17" xlink:href="#a"/>
+    <linearGradient id="c" x1="-455.37" y1="394.72" x2="-454.41" y2="17.09" xlink:href="#a"/>
+    <linearGradient id="d" x1="-455.69" y1="416.56" x2="-454.67" y2="14.25" xlink:href="#a"/>
+    <linearGradient id="e" x1="-649.48" y1="392.88" x2="-648.51" y2="12.07" xlink:href="#a"/>
+    <linearGradient id="f" x1="-521.83" y1="392.19" x2="-520.88" y2="18.45" xlink:href="#a"/>
+    <linearGradient id="g" x1="-392.77" y1="394.71" x2="-391.79" y2="9.18" xlink:href="#a"/>
+    <linearGradient id="h" x1="-329.94" y1="399.3" x2="-328.96" y2="11.84" xlink:href="#a"/>
+    <linearGradient id="i" x1="-454.33" y1="392.02" x2="-453.37" y2="15.02" xlink:href="#a"/>
+    <linearGradient id="j" x1="-554.6" y1="416.56" x2="-553.58" y2="14.25" gradientTransform="translate(1427.09)" xlink:href="#a"/>
+  </defs>
+  <polygon fill="url(#a)" points="970.4 243.79 909.31 312.25 909.5 256.47 970.58 189.97 970.4 243.79"/>
+  <polygon fill="url(#b)" points="904.48 256.61 904.48 313.13 842.35 245.49 843.34 192.99 904.48 256.61"/>
+  <polygon fill="url(#c)" points="775.41 179.72 775.35 125.01 837.51 189.17 837.51 242.35 775.41 179.72"/>
+  <polygon fill="url(#d)" points="775.33 71.36 837.51 0 837.41 53.6 775.32 125.01 775.33 71.36"/>
+  <polygon fill="url(#e)" points="1030.48 69.17 1031.47 121.67 969.58 187.51 969.4 135.66 1030.48 69.17"/>
+  <polygon fill="url(#f)" points="904.48 367.82 842.35 430.4 842.35 377.84 904.46 314.25 904.48 367.82"/>
+  <polygon fill="url(#g)" points="773.71 254.39 774.63 308.97 713.55 242.47 713.81 189.17 773.71 254.39"/>
+  <polygon fill="url(#h)" points="711.15 134.44 711.56 187.51 650.48 121.01 650.2 67.11 711.15 134.44"/>
+  <polygon fill="url(#i)" points="836.46 377.08 836.27 430.4 775.35 368.31 775.32 313.25 836.46 377.08"/>
+  <polygon fill="url(#j)" points="904.47 71.36 842.3 0 842.4 53.6 904.48 125.01 904.47 71.36"/>
+</svg>

@@ -4,7 +4,7 @@
     "slug": "Monk-Dew",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logos/logo-3-dark-teal.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -31,7 +31,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/icon.png",
+          "icon": "./assets/logos/logo-3-dark-teal.png",
           "color": "#ffffff"
         }
       ]
